@@ -1,0 +1,51 @@
+
+MEMPHIS GRIZZLIES
+
+Anthony Davis
+IQ: 81
+CON: 87
+GRE: 86
+LOY: 29
+PFW: 82
+PT: 98
+PER: 83
+DUR: 65
+WE: 69
+POP: 95
+
+Bradley Beal
+IQ: 67
+CON: 65
+GRE: 33
+LOY: 31
+PFW: 42
+PT: 85
+PER: 63
+DUR: 38
+WE: 63
+POP: 65
+
+Thomas Robinson
+IQ: 73
+CON: 92
+GRE: 77
+LOY: 71
+PFW: 95
+PT: 96
+PER: 55
+DUR: 38
+WE: 94
+POP: 60
+
+Michael Kidd-Gilchrist
+IQ: 73
+CON: 82
+GRE: 79
+LOY: 41
+PFW: 93
+PT: 90
+PER: 65
+DUR: 99
+WE: 99
+POP: 85
+

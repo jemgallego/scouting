@@ -1,0 +1,51 @@
+
+GOLDEN STATE WARRIORS
+
+Anthony Davis
+IQ: 68
+CON: 87
+GRE: 97
+LOY: 29
+PFW: 90
+PT: 91
+PER: 99
+DUR: 70
+WE: 76
+POP: 98
+
+Bradley Beal
+IQ: 72
+CON: 72
+GRE: 30
+LOY: 36
+PFW: 31
+PT: 98
+PER: 66
+DUR: 36
+WE: 68
+POP: 55
+
+Glen Rice
+IQ: 62
+CON: 54
+GRE: 74
+LOY: 99
+PFW: 57
+PT: 62
+PER: 35
+DUR: 80
+WE: 84
+POP: 99
+
+Michael Kidd-Gilchrist
+IQ: 87
+CON: 96
+GRE: 86
+LOY: 52
+PFW: 88
+PT: 86
+PER: 63
+DUR: 94
+WE: 99
+POP: 83
+

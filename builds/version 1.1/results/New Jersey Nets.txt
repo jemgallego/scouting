@@ -1,0 +1,51 @@
+
+NEW JERSEY NETS
+
+Anthony Davis
+IQ: 77
+CON: 72
+GRE: 87
+LOY: 38
+PFW: 80
+PT: 99
+PER: 89
+DUR: 74
+WE: 60
+POP: 90
+
+Kendall Marshall
+IQ: 86
+CON: 79
+GRE: 66
+LOY: 71
+PFW: 99
+PT: 92
+PER: 76
+DUR: 44
+WE: 83
+POP: 60
+
+Thomas Robinson
+IQ: 71
+CON: 82
+GRE: 77
+LOY: 69
+PFW: 85
+PT: 95
+PER: 55
+DUR: 35
+WE: 80
+POP: 58
+
+Michael Kidd-Gilchrist
+IQ: 76
+CON: 82
+GRE: 79
+LOY: 50
+PFW: 99
+PT: 99
+PER: 60
+DUR: 90
+WE: 99
+POP: 83
+
