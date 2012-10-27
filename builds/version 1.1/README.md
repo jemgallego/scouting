@@ -8,7 +8,7 @@ Version 1.1
 + Reports are released with certain deviations.  
 
 	**SCOUTING**  
-	*Dunk Post Drive Jumper Three* -- Actual rating   
+	*Dunk Post Drive Jumper Three* -- Actual rating  
 	*FGD FGI FGJ FG3 DRFL* -- with +/- 2 (both current and potential)  
 	*FT SCR PAS HDL ORB DRB DEF BLK STL DIS IQ* -- with +/- 7 (current) and +/- 15 (potential) 
 
