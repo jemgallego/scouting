@@ -283,6 +283,7 @@ public final class MainWindow implements Runnable{
     	//build the file menu
     	JMenuItem scoutingFile = new JMenuItem("Open File");
     	JMenuItem exit = new JMenuItem("Exit");
+    	exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK));
     	scoutingFile.addActionListener(new ChooseFileButtonListener());
     	exit.addActionListener(new ExitButtonListener());
     	fileMenu.add(scoutingFile);

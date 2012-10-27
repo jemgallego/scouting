@@ -1,4 +1,4 @@
-package prospects;
+package draftClass;
 import java.io.*;
 import java.util.*;
 
@@ -9,17 +9,17 @@ import jxl.read.biff.BiffException;
 
 import main.MainWindow;
 
-public class Prospects {
+public class DraftClass {
 	// key = name, value = ratings (int[][])
 	private static Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
 	private Random rand = new Random();
 		
-	public Prospects() throws IOException
+	public DraftClass() throws IOException
 	{
-		generateRookieClass("files/prospects.xls");
+		generateDraftClass("files/prospects.xls");
 	}
 	
-	public void generateRookieClass(String filename) throws IOException
+	public void generateDraftClass(String filename) throws IOException
 	{
 		File inputWorkbook = new File(filename);
 		Workbook w;

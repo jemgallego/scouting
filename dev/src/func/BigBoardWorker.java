@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.*;
 import javax.swing.SwingWorker;
 
-import prospects.Prospects;
+import draftClass.DraftClass;
+
 
 
 import main.MainWindow;
@@ -30,7 +31,7 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 	
 	public void generateBigBoard() throws IOException
 	{	
-		Prospects rookies = new Prospects();
+		DraftClass rookies = new DraftClass();
 		Map<String, Integer> m = new HashMap<String,Integer>();
 		
 		Scanner sc = new Scanner(new File("files/Rookies.txt"));

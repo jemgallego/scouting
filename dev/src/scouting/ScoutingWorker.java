@@ -9,7 +9,8 @@ import java.util.*;
 
 import javax.swing.SwingWorker;
 
-import prospects.Prospects;
+import draftClass.DraftClass;
+
 
 
 import main.MainWindow;
@@ -21,7 +22,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	private enum Rating {FGD, FGI, FGJ, FG3, FT, SCR,
 		PAS, HDL, ORB, DRB, DEF, BLK, STL, DRFL, DIS, IQ};
 		
-	private static Prospects rookies;
+	private static DraftClass rookies;
 	private File directory;
 	private BufferedWriter reports;
 
@@ -44,7 +45,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	
 	private void conductScouting() throws IOException
 	{
-		rookies = new Prospects(); // Generate ratings table for rookie class	
+		rookies = new DraftClass(); // Generate ratings table for rookie class	
 		File files[] = directory.listFiles(); // Get all the files in the directory.
 		
 		BufferedReader trackerReader = new BufferedReader(new FileReader("files/tracker.txt"));
