@@ -20,237 +20,35 @@ import tracker.TrackerWorker;
 import java.io.File;
 import java.lang.Short;
 
-//singleton class, final, no sub-classing of main window allowed
-public final class MainWindow implements Runnable{
+// singleton class, final, no sub-classing of main window allowed
+public final class MainWindow implements Runnable {
 
-    //reference to the singleton MainWindow
+    // reference to the singleton MainWindow
     private static MainWindow mwRef = null;
 
-    //method called to get the instance of the mainWindow
-    //call this instead of constructor
-    public static MainWindow GetInstance(){
+    // method called to get the instance of the mainWindow
+    // call this instead of constructor
+    public static MainWindow GetInstance()
+    {
         if(mwRef == null){
             mwRef = new MainWindow();
         }
         return mwRef;
     }
- 
-	///Event Handlers///
-	
-	//callback for click event on the exit menu item
-    class ExitButtonListener implements ActionListener{
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-            //Exit program
-            System.exit(0);
-	    }
-    }
     
-    //callback for events on the filechooser window
-    class FileChooserListener implements ActionListener{
-        //the action listener function
-        public void actionPerformed(ActionEvent actionEvent){
-            //alias to the file chooser to enable access to its data
-            JFileChooser fileChooser = (JFileChooser) actionEvent.getSource();
-
-            String command = actionEvent.getActionCommand();
-            if(command.equals(JFileChooser.APPROVE_SELECTION)){
-                //get the selected filename
-                directory = fileChooser.getSelectedFile();
-                String folderName = directory.getName();
-                //update main window texts
-                MainWindow.GetInstance().setDirectory(folderName);
-            }
-        }
-    }
-    
-    //choose file click event
-    class ChooseFileButtonListener implements ActionListener{
-        JFileChooser fileChooser;
-	    //constructor
-	    public ChooseFileButtonListener(){
-            fileChooser = new JFileChooser(".");
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fileChooser.addActionListener(new FileChooserListener());
-	    }
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-		    //now that the button has been clicked, show the jFileChooser
-            fileChooser.showOpenDialog(MainWindow.GetInstance().f);
-	    }
-    }
-    
-    class ScoutButtonListener implements ActionListener
-    {	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-               
-            //if(lastDir.equals(currentDir))
-            //	updateOutput("You already finished scouting this period");
-            //else
-            
-            //create, register callbacks and run the asynchronous worker
-            ScoutingWorker worker = new ScoutingWorker(getDirectory());                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-            //lastDir = currentDir;
-            
-	    }
-    }
-    
-    class InterviewButtonListener implements ActionListener
-    {	
-    	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            InterviewWorker worker = new InterviewWorker(getDirectory());                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    class WorkoutButtonListener implements ActionListener
-    {	
-    
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            WorkoutWorker worker = new WorkoutWorker(getDirectory());                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    class BasicSheetButtonListener implements ActionListener
-    {	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            BasicSheetWorker worker = new BasicSheetWorker();                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    class BigBoardButtonListener implements ActionListener
-    {	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            BigBoardWorker worker = new BigBoardWorker();                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    class TrackerButtonListener implements ActionListener
-    {	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            TrackerWorker worker = new TrackerWorker();                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    class PointsButtonListener implements ActionListener
-    {	
-	    //callback handler
-	    public void actionPerformed(ActionEvent e){
-	    	 // Clear the textarea.
-            clearOutput();
-            
-            //create, register callbacks and run the asynchronous worker
-            PointsWorker worker = new PointsWorker();                
-            //callback for asynchronous update of the progress bar
-		    worker.addPropertyChangeListener(new PropertyChangeListener(){
-			    public void propertyChange(PropertyChangeEvent evt){
-				    if("progress".equals(evt.getPropertyName())){
-			    		MainWindow.GetInstance().SetProgressBar(
-                                            (Integer)evt.getNewValue());
-				    }
-			    }
-		    });
-            worker.execute(); //schedule asynchronous run
-	    }
-    }
-    
-    ///class attributes///
-    String currentDir = "---";
-    String lastDir = "none";
+    // class attributes
+    private String currentDir = "---";
     private File directory;
     
-	//window components
-    JFrame f = new JFrame("Mike's Scouting v1.0");
+	// window components
+    JFrame f = new JFrame("Mike's Scouting v1.2");
  
-    //Scouting components
+    // menu components
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JMenu fileMenu = new JMenu("File");
+    private final JMenu helpMenu = new JMenu("Help");
+    
+    // main components
     private final JLabel selectedFileLabel = new JLabel("Select Folder: " + currentDir);
     private final JButton scoutButton = new JButton("Scout");
     private final JButton interviewButton = new JButton("Interview");
@@ -262,48 +60,56 @@ public final class MainWindow implements Runnable{
 	private static JTextArea output = new JTextArea(20,20); // Scanner output
     private final JScrollPane scrollPane = new JScrollPane(output);
 
-    //status components
+    // status components
 	private final JProgressBar progressBar = new JProgressBar(0,100);
 	private final JLabel statusLabel = new JLabel("Status: Idle");
 
-	//Layout boxes
+	// layout boxes
     private final Box fileBox = new Box(BoxLayout.X_AXIS);
     private final Box scoutBox = new Box(BoxLayout.X_AXIS);
     private final Box miscBox = new Box(BoxLayout.X_AXIS);
     private final Box outputLabelBox = new Box(BoxLayout.X_AXIS);
     private final Box statusBox = new Box(BoxLayout.X_AXIS);
     private final Box mainBox = new Box(BoxLayout.Y_AXIS);
-    //Menu Components
-    private final JMenuBar menuBar = new JMenuBar();
-    private final JMenu fileMenu = new JMenu("File");
-    private final JMenu helpMenu = new JMenu("Help");
-
-    //private to preserve singleton class property
-    private MainWindow(){
-    	//build the file menu
+    
+    // private to preserve singleton class property
+    private MainWindow()
+    {	
+    	// build the file menu
+    	Color menuBarColor = new Color(214,217,223);
     	JMenuItem scoutingFile = new JMenuItem("Open File");
     	JMenuItem exit = new JMenuItem("Exit");
-    	exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK));
+    	
     	scoutingFile.addActionListener(new ChooseFileButtonListener());
+    	scoutingFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_DOWN_MASK));
+    	
     	exit.addActionListener(new ExitButtonListener());
+    	exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.META_DOWN_MASK));
+    	
+    	fileMenu.setBackground(menuBarColor);
     	fileMenu.add(scoutingFile);
     	fileMenu.add(exit);
     	
-    	//build the help menu
+    	// build the help menu
     	JMenuItem FAQ = new JMenuItem("FAQ");
     	JMenuItem manual = new JMenuItem("Scouting Manual");
-    	//FAQ.addActionListener(new FAQListener());
-    	//manual.addActionListner(new manualListener());   	
+    	
+    	// FAQ.addActionListener(new FAQListener());
+    	// manual.addActionListner(new manualListener());   	
+    	
+    	helpMenu.setBackground(menuBarColor);
     	helpMenu.add(FAQ);
     	helpMenu.add(manual);
 
+    	menuBar.setBackground(menuBarColor);
     	menuBar.add(fileMenu);
     	menuBar.add(helpMenu);
     	
     	output.setEditable(false);
     }
 	
-	public void run(){
+	public void run()
+	{
         //set the icon image and layout manager of the rootPane
         //f.setIconImage(Program.windowIcon);
         f.setLayout(new BorderLayout());
@@ -374,48 +180,257 @@ public final class MainWindow implements Runnable{
 		
 		//finish setting up the window
 		f.pack();
-        f.setSize(500, 550);
+        f.setSize(500, 600);
         f.setLocation(600, 200);
         f.setLocationByPlatform(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
+    
+    //**************************//
+	// 		Event Handlers		//
+	//**************************//
+	
+    class ExitButtonListener implements ActionListener 
+    {
+	    public void actionPerformed(ActionEvent e)
+	    {
+            System.exit(0); // Exit program.
+	    }
+    }
+    
+    class FileChooserListener implements ActionListener 
+    {
+        public void actionPerformed(ActionEvent actionEvent) 
+        {  
+            JFileChooser fileChooser = (JFileChooser) actionEvent.getSource();
+            String command = actionEvent.getActionCommand();
+            
+            // If pressed OK...
+            if(command.equals(JFileChooser.APPROVE_SELECTION))
+            {
+                directory = fileChooser.getSelectedFile();
+                String folderName = directory.getName();
+                //show selected Folder in MainWindow.
+                MainWindow.GetInstance().setDirectory(folderName);
+            }
+        }
+    }
+    
+    class ChooseFileButtonListener implements ActionListener
+    {
+        JFileChooser fileChooser;
+	    
+	    public ChooseFileButtonListener() 
+	    {
+	    	// limit selection to folders
+	    	fileChooser = new JFileChooser(".");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.addActionListener(new FileChooserListener());
+	    }
+	    
+	    public void actionPerformed(ActionEvent e)
+	    {
+		    // show the fileChooser window
+            fileChooser.showOpenDialog(MainWindow.GetInstance().f);
+	    }
+    }
+    
+    class ScoutButtonListener implements ActionListener 
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the text area.
+            clearOutput();
+         
+            ScoutingWorker worker = new ScoutingWorker(getDirectory());
+            
+            // progress bar
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class InterviewButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+   
+            InterviewWorker worker = new InterviewWorker(getDirectory());                
+   
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class WorkoutButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+            
+            WorkoutWorker worker = new WorkoutWorker(getDirectory());   
+            
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class BasicSheetButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
 
-    //update the selected file JLabel text
-    public void setDirectory(String fileName){
+            BasicSheetWorker worker = new BasicSheetWorker();                
+
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class BigBoardButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+
+            BigBoardWorker worker = new BigBoardWorker();                
+
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class TrackerButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+
+            TrackerWorker worker = new TrackerWorker();                
+
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class PointsButtonListener implements ActionListener
+    {	
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+
+            PointsWorker worker = new PointsWorker();                
+
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    //**************************//
+	// 		Class Functions		//
+	//**************************//
+    
+    //update the selected file label 
+    public void setDirectory(String fileName) 
+    {
         currentDir = fileName;
         selectedFileLabel.setText("Selected Folder: " + currentDir);
     }
     
+    // get selected folder
     public File getDirectory()
     {
     	return directory;
     }
     
+    // update text area
     public void updateOutput(String str)
     {
     	output.append(str);
     }
     
+    // clear the text area
     public void clearOutput()
     {
     	output.setText(null);
     }
     
     //update the progress bar
-    public void SetProgressBar(int val){
+    public void setProgressBar(int val){
         if(val > 99)
             progressBar.setValue(0);
         else
             progressBar.setValue(val);
     }
-    //functions for updating the status texts
-    public void SetStatusLabel(String in){
+
+    // update status label
+    public void setStatusLabel(String in)
+    {
     	statusLabel.setText("Status: " + in);
     }
-    public void SetStatusIdle(){
-    	SetStatusLabel("Idle");
+    
+    // set status to Idle
+    public void SetStatusIdle()
+    {
+    	setStatusLabel("Idle");
     }
-  
 }
 

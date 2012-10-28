@@ -1,4 +1,5 @@
 package draftClass;
+
 import java.io.*;
 import java.util.*;
 
@@ -10,8 +11,15 @@ import jxl.read.biff.BiffException;
 import main.MainWindow;
 
 public class DraftClass {
+	
 	// key = name, value = ratings (int[][])
 	private static Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
+	// the excel file being loaded should have this column order
+	private static final String ORDER = "NAME SURNAME POS AGE HEIGHT DH WEIGHT COLLEGE " 
+		+ "CON GRE LOY PFW PT PER DUR WE POP Dunk Post Drive Jumper Three "
+		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "
+		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "; 
+	
 	private Random rand = new Random();
 		
 	public DraftClass() throws IOException
@@ -21,34 +29,30 @@ public class DraftClass {
 	
 	public void generateDraftClass(String filename) throws IOException
 	{
+		String firstLine = "";
 		File inputWorkbook = new File(filename);
 		Workbook w;
 		
-		String firstLine = "";
-		
-		try {
+		try 
+		{
 			w = Workbook.getWorkbook(inputWorkbook);
-			//
 			Sheet sheet = w.getSheet(0);
 			
-			for (int j = 0; j < sheet.getColumns(); j++) {
+			for (int j = 0; j < sheet.getColumns(); j++) 
+			{
 				Cell cell = sheet.getCell(j, 0);
 				firstLine += cell.getContents() + " ";
 			}
-
-			String order = "NAME SURNAME POS AGE HEIGHT DH WEIGHT COLLEGE " 
-				+ "CON GRE LOY PFW PT PER DUR WE POP Dunk Post Drive Jumper Three "
-				+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "
-				+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ ";
 		
 			// check to make sure the file is in the correct order.
-			if(!order.equals(firstLine))
+			if(!firstLine.equals(ORDER))
 			{
-				MainWindow.GetInstance().updateOutput("WARNING: Order of columns is wrong!\n\n");
+				MainWindow.GetInstance().updateOutput("ERROR: Order of columns is wrong!\n\n");
 				return;
 			}
 			
-			for(int i = 1; i < sheet.getRows(); i++) {
+			for(int i = 1; i < sheet.getRows(); i++) 
+			{
 				int[][] rating = new int[4][16];
 				
 				// Get the player name
@@ -57,7 +61,8 @@ public class DraftClass {
 				String name = firstName.getContents() + " " + lastName.getContents();
 	
 				// Row 0 = (CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP)
-				for (int j = 0; j < 9; j++) {
+				for (int j = 0; j < 9; j++) 
+				{
 					Cell cell = sheet.getCell(j+8, i);
 					rating[0][j] = Integer.parseInt(cell.getContents());
 				}
@@ -71,8 +76,10 @@ public class DraftClass {
 				
 				// Row 2 = (All current ratings - 16 total)
 				// Row 3 = (All potential ratings - 16 total)
-				for(int row=2; row<=3; row++) {
-					for(int col=0; col < 16; col++)	{
+				for(int row=2; row<=3; row++)
+				{
+					for(int col=0; col < 16; col++)
+					{
 						Cell cell = sheet.getCell(col+22,i);
 						rating[row][col] = Integer.parseInt(cell.getContents());
 					}
@@ -80,9 +87,11 @@ public class DraftClass {
 				
 				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
 			}	
-		} catch (BiffException e) {
+		} 
+		catch (BiffException e) 
+		{
 			e.printStackTrace();
-			System.out.println("ERROR");
+			MainWindow.GetInstance().updateOutput("Error reading excel file!\n\n");
 		} 
 	}
 	
