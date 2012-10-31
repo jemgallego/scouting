@@ -16,6 +16,7 @@ public class TeamList {
 	{
 		teams.add("Atlanta Hawks");
 		teams.add("Boston Celtics");
+		teams.add("Brooklyn Nets");
 		teams.add("Charlotte Bobcats");
 		teams.add("Chicago Bulls");
 		teams.add("Cleveland Cavaliers");
@@ -31,7 +32,6 @@ public class TeamList {
 		teams.add("Miami Heat");
 		teams.add("Milwaukee Bucks");
 		teams.add("Minnesota Timberwolves");
-		teams.add("New Jersey Nets");
 		teams.add("New Orleans Hornets");
 		teams.add("New York Knicks");
 		teams.add("Oklahoma City Thunder");

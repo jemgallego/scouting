@@ -103,29 +103,34 @@ public class DraftClass {
 	public int[] getScoutingReport(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] scoutingReport = new int[37]; 
-		
-		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
-		for (int i=0; i < 5 ; i++)
-		{
-			scoutingReport[i] = ratings[1][i];
-		}
-		
-		int j = 5;
+		int[] scoutingReport = new int[28]; 
+				
+		int j = 0;
 		for (int i=0; i < 16; i++) // Rest of the ratings -- current and potential
 		{				
-			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 13) // FGD, FGI, FGJ, FG3, DRFL
+			if(i == 0 || i == 1 || i == 2 || i == 4) // FGD, FGI, FGJ, FG3
+			{
+				scoutingReport[j] = randomCurrent2(ratings[2][i]);
+			}
+			else if (i == 12)
 			{
 				scoutingReport[j] = randomCurrent2(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential2(scoutingReport[j], ratings[3][i]);
+				j++;
 			}
 			else
 			{
 				scoutingReport[j] = randomCurrent(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential(scoutingReport[j], ratings[3][i]);
+				j++;
 			}
-			j+=2;
+			j++;
 		}
+		
+		for(int i=0; i < 28; i++)
+			System.out.print(scoutingReport[i] + " ");
+		
+		System.out.println();
 		
 		return scoutingReport;
 	}
@@ -135,11 +140,17 @@ public class DraftClass {
 		int[][] ratings = prospects.get(name);
 		int[] interview = new int[10];
 		
-		interview[0] = randomInterview(ratings[3][15]);
-		
-		for (int i=0; i < 9; i++)
+		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
+		for (int i=0; i < 5 ; i++)
 		{
-			interview[i+1] = randomInterview(ratings[0][i]);
+			interview[i] = ratings[1][i];
+		}
+		
+		interview[5] = randomInterview(ratings[3][15]);
+		
+		for (int i=6; i < 15; i++)
+		{
+			interview[i] = randomInterview(ratings[0][i]);
 		}
 		
 		return interview;
@@ -182,7 +193,7 @@ public class DraftClass {
 
 	}
 	
-	// random number generator for FGI, FGJ, FG3, DRFL
+	// random number generator for FGD, FGI, FGJ, FG3, DRFL
 	public int randomCurrent2(int rtg) // +/- 2 deviation
 	{
 		int min = rtg - 2;

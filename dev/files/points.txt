@@ -6,11 +6,11 @@ Houston Rockets 0
 Miami Heat 0
 Los Angeles Clippers 0
 Orlando Magic 0
-New Jersey Nets 53
-Memphis Grizzlies 53
+New Jersey Nets 55
+Memphis Grizzlies 69
 Toronto Raptors 0
 Philadelphia 76ers 0
-Golden State Warriors 53
+Golden State Warriors 69
 Indiana Pacers 0
 Oklahoma City Thunder 0
 Utah Jazz 0

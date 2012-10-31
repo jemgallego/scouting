@@ -46,14 +46,14 @@ public final class MainWindow implements Runnable {
     // menu components
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");
+    private final JMenu extrasMenu = new JMenu("Extras");
     private final JMenu helpMenu = new JMenu("Help");
     
     // main components
-    private final JLabel selectedFileLabel = new JLabel("Select Folder: " + currentDir);
+    private final JLabel selectedFolderLabel = new JLabel("Select Folder: " + currentDir);
     private final JButton scoutButton = new JButton("Scout");
     private final JButton interviewButton = new JButton("Interview");
     private final JButton workoutButton = new JButton("Workout");
-    private final JButton basicSheetButton = new JButton("SpreadSheet");
     private final JButton bigBoardButton = new JButton("Big Board");
     private final JButton trackerButton = new JButton("Tracker");
     private final JButton pointsButton = new JButton("Points");
@@ -65,8 +65,8 @@ public final class MainWindow implements Runnable {
 	private final JLabel statusLabel = new JLabel("Status: Idle");
 
 	// layout boxes
-    private final Box fileBox = new Box(BoxLayout.X_AXIS);
-    private final Box scoutBox = new Box(BoxLayout.X_AXIS);
+    private final Box selectedFolderBox = new Box(BoxLayout.X_AXIS);
+    private final Box buttonBox = new Box(BoxLayout.X_AXIS);
     private final Box miscBox = new Box(BoxLayout.X_AXIS);
     private final Box outputLabelBox = new Box(BoxLayout.X_AXIS);
     private final Box statusBox = new Box(BoxLayout.X_AXIS);
@@ -75,20 +75,40 @@ public final class MainWindow implements Runnable {
     // private to preserve singleton class property
     private MainWindow()
     {	
-    	// build the file menu
     	Color menuBarColor = new Color(214,217,223);
-    	JMenuItem scoutingFile = new JMenuItem("Open File");
+    	
+    	// build the file menu
+    	JMenuItem openFile = new JMenuItem("Open File");
     	JMenuItem exit = new JMenuItem("Exit");
     	
-    	scoutingFile.addActionListener(new ChooseFileButtonListener());
-    	scoutingFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_DOWN_MASK));
+    	openFile.addActionListener(new OpenFileButtonListener());
+    	openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_DOWN_MASK));
     	
     	exit.addActionListener(new ExitButtonListener());
     	exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.META_DOWN_MASK));
     	
     	fileMenu.setBackground(menuBarColor);
-    	fileMenu.add(scoutingFile);
+    	fileMenu.add(openFile);
     	fileMenu.add(exit);
+    	
+    	// build the extras menu
+    	JMenuItem finder = new JMenuItem("Prospect Finder");
+    	JMenuItem basicSheet = new JMenuItem ("Basic Sheet");
+    	JMenuItem points = new JMenuItem ("Points");
+    	
+    	finder.addActionListener(new FinderButtonListener());
+    	finder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.META_DOWN_MASK));
+    	
+    	basicSheet.addActionListener(new BasicSheetButtonListener());
+    	basicSheet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.META_DOWN_MASK));
+    	
+    	points.addActionListener(new PointsButtonListener());
+    	points.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.META_DOWN_MASK));
+    	
+    	extrasMenu.setBackground(menuBarColor);
+    	extrasMenu.add(finder);
+    	extrasMenu.add(basicSheet);
+    	extrasMenu.add(points);
     	
     	// build the help menu
     	JMenuItem FAQ = new JMenuItem("FAQ");
@@ -103,6 +123,7 @@ public final class MainWindow implements Runnable {
 
     	menuBar.setBackground(menuBarColor);
     	menuBar.add(fileMenu);
+    	menuBar.add(extrasMenu);
     	menuBar.add(helpMenu);
     	
     	output.setEditable(false);
@@ -122,44 +143,44 @@ public final class MainWindow implements Runnable {
         //configure component sizes
      
         //border adjustments
+      
         mainBox.setBorder(new EmptyBorder(new Insets(0,10,10,10)));
-        selectedFileLabel.setBorder(new EmptyBorder(new Insets(0,0,5,0)));
-        scoutBox.setBorder(new EmptyBorder(new Insets(0,0,10,0)));
+        selectedFolderLabel.setBorder(new EmptyBorder(new Insets(0,6,10,0)));
+        buttonBox.setBorder(new EmptyBorder(new Insets(0,0,10,0)));
         miscBox.setBorder(new EmptyBorder(new Insets(0,0,10,0)));
         statusBox.setBorder(new EmptyBorder(new Insets(10,0,0,0)));
-        fileBox.setBorder(new EmptyBorder(new Insets(10,0,0,10)));
+        selectedFolderBox.setBorder(new EmptyBorder(new Insets(10,0,0,10)));
         outputLabelBox.setBorder(new EmptyBorder(new Insets(0,0,0,10)));
         
         //alignment adjustments (all components must have the same alignment
         //when using box layout to prevent left aligning to the center of
         //center aligned components)
-        fileBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        scoutBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        selectedFolderBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        buttonBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         miscBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         outputLabelBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         statusBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		//connect all of the window components (and add padding)
-        fileBox.add(selectedFileLabel);
-        fileBox.add(new Box.Filler(minDim, prefDim, maxDim));
+        JLabel dividerLabel = new JLabel(" | ");
         
-        scoutBox.add(scoutButton);
-        scoutBox.add(interviewButton);
-        scoutBox.add(workoutButton);
+        selectedFolderBox.add(selectedFolderLabel);
+        selectedFolderBox.add(new Box.Filler(minDim, prefDim, maxDim));
         
-        miscBox.add(basicSheetButton);
-        miscBox.add(bigBoardButton);
-        miscBox.add(trackerButton);
-        miscBox.add(pointsButton);
+        buttonBox.add(scoutButton);
+        buttonBox.add(interviewButton);
+        buttonBox.add(workoutButton);
+        buttonBox.add(dividerLabel);
+        buttonBox.add(bigBoardButton);
+        buttonBox.add(trackerButton);
         
         statusBox.add(statusLabel);
         statusBox.add(new Box.Filler(minDim, prefDim, maxDim));
 
         //add everything to the main box
-        mainBox.add(fileBox);
-        mainBox.add(scoutBox);
+        mainBox.add(selectedFolderBox);
+        mainBox.add(buttonBox);
         mainBox.add(miscBox);
         mainBox.add(outputLabelBox);
 		mainBox.add(scrollPane);
@@ -173,7 +194,6 @@ public final class MainWindow implements Runnable {
 		scoutButton.addActionListener(new ScoutButtonListener());
 		interviewButton.addActionListener(new InterviewButtonListener());
 		workoutButton.addActionListener(new WorkoutButtonListener());
-		basicSheetButton.addActionListener(new BasicSheetButtonListener());
 		bigBoardButton.addActionListener(new BigBoardButtonListener());
 		trackerButton.addActionListener(new TrackerButtonListener());
 		pointsButton.addActionListener(new PointsButtonListener());
@@ -187,12 +207,11 @@ public final class MainWindow implements Runnable {
 		f.setVisible(true);
 	}
     
-    //**************************//
-	// 		Event Handlers		//
-	//**************************//
+    //**************EVENT HANDLERS**************//
 	
     class ExitButtonListener implements ActionListener 
     {
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
             System.exit(0); // Exit program.
@@ -201,6 +220,7 @@ public final class MainWindow implements Runnable {
     
     class FileChooserListener implements ActionListener 
     {
+    	@Override
         public void actionPerformed(ActionEvent actionEvent) 
         {  
             JFileChooser fileChooser = (JFileChooser) actionEvent.getSource();
@@ -217,11 +237,11 @@ public final class MainWindow implements Runnable {
         }
     }
     
-    class ChooseFileButtonListener implements ActionListener
+    class OpenFileButtonListener implements ActionListener
     {
         JFileChooser fileChooser;
 	    
-	    public ChooseFileButtonListener() 
+	    public OpenFileButtonListener() 
 	    {
 	    	// limit selection to folders
 	    	fileChooser = new JFileChooser(".");
@@ -229,6 +249,7 @@ public final class MainWindow implements Runnable {
             fileChooser.addActionListener(new FileChooserListener());
 	    }
 	    
+	    @Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 		    // show the fileChooser window
@@ -236,8 +257,39 @@ public final class MainWindow implements Runnable {
 	    }
     }
     
+    class FinderButtonListener implements ActionListener
+    {	
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			clearOutput();
+			
+			String findPlayer = JOptionPane.showInputDialog("Enter prospect name:");
+			updateOutput(findPlayer);
+		}
+    }
+    
+    class PlayerFinder implements ActionListener 
+    {
+    	@Override
+        public void actionPerformed(ActionEvent actionEvent) 
+        {  
+            JFileChooser fileChooser = (JFileChooser) actionEvent.getSource();
+            String command = actionEvent.getActionCommand();
+            
+            // If pressed OK...
+            if(command.equals(JFileChooser.APPROVE_SELECTION))
+            {
+                directory = fileChooser.getSelectedFile();
+                String folderName = directory.getName();
+                //show selected Folder in MainWindow.
+                MainWindow.GetInstance().setDirectory(folderName);
+            }
+        }
+    }
+    
     class ScoutButtonListener implements ActionListener 
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the text area.
@@ -260,6 +312,7 @@ public final class MainWindow implements Runnable {
     
     class InterviewButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -281,6 +334,7 @@ public final class MainWindow implements Runnable {
     
     class WorkoutButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -302,6 +356,7 @@ public final class MainWindow implements Runnable {
     
     class BasicSheetButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -323,6 +378,7 @@ public final class MainWindow implements Runnable {
     
     class BigBoardButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -344,6 +400,7 @@ public final class MainWindow implements Runnable {
     
     class TrackerButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -365,6 +422,7 @@ public final class MainWindow implements Runnable {
     
     class PointsButtonListener implements ActionListener
     {	
+    	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the textarea.
@@ -384,15 +442,14 @@ public final class MainWindow implements Runnable {
 	    }
     }
     
-    //**************************//
-	// 		Class Functions		//
-	//**************************//
+    //**************CLASS FUNCTIONS**************//
     
-    //update the selected file label 
     public void setDirectory(String fileName) 
     {
         currentDir = fileName;
-        selectedFileLabel.setText("Selected Folder: " + currentDir);
+        
+        // update the selected file label
+        selectedFolderLabel.setText("Selected Folder: " + currentDir); 
     }
     
     // get selected folder
