@@ -10,12 +10,13 @@ import javax.swing.border.EmptyBorder;
 
 import func.BasicSheetWorker;
 import func.BigBoardWorker;
+import func.FinderWorker;
+import func.PointsWorker;
+import func.TrackerWorker;
 
 import scouting.InterviewWorker;
 import scouting.ScoutingWorker;
 import scouting.WorkoutWorker;
-import tracker.PointsWorker;
-import tracker.TrackerWorker;
 
 import java.io.File;
 import java.lang.Short;
@@ -264,28 +265,21 @@ public final class MainWindow implements Runnable {
 			clearOutput();
 			
 			String findPlayer = JOptionPane.showInputDialog("Enter prospect name:");
-			updateOutput(findPlayer);
+			FinderWorker worker = new FinderWorker(findPlayer);
+			
+			// progress bar
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
 		}
     }
     
-    class PlayerFinder implements ActionListener 
-    {
-    	@Override
-        public void actionPerformed(ActionEvent actionEvent) 
-        {  
-            JFileChooser fileChooser = (JFileChooser) actionEvent.getSource();
-            String command = actionEvent.getActionCommand();
-            
-            // If pressed OK...
-            if(command.equals(JFileChooser.APPROVE_SELECTION))
-            {
-                directory = fileChooser.getSelectedFile();
-                String folderName = directory.getName();
-                //show selected Folder in MainWindow.
-                MainWindow.GetInstance().setDirectory(folderName);
-            }
-        }
-    }
     
     class ScoutButtonListener implements ActionListener 
     {	

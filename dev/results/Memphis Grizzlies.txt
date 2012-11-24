@@ -1,30 +1,27 @@
 
 MEMPHIS GRIZZLIES
 
-Quincy Acy
-FGD: 21
+ERROR: Name Not Found! 
+ --/--
+ERROR: Name Not Found! 
+ --/--
+Royce White
+FGD: 20
 FGI: 22
-FGJ: 18
-FT: 64/73
+FGJ: 22
+FT: 68
 FG3: 18
-SCR: 92/100
-PAS: 90/90
-HDL: 91/91
-ORB: 88/95
-DRB: 92/92
-BLK: 86/100
-STL: 85/98
-DRFL: 3/5
-DEF: 88/88
-DIS: 95/97
+SCR: 96/96
+PAS: 95/100
+HDL: 95/95
+ORB: 84/84
+DRB: 88/88
+BLK: 95/95
+STL: 88/88
+DRFL: 6/6
+DEF: 84/100
+DIS: 94/94
 IQ: 96/96
 
 ERROR: Name Not Found! 
  --/--
-
-ERROR: Name Not Found! 
- --/--
-
-ERROR: Name Not Found! 
- --/--
-

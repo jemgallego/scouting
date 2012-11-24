@@ -1,4 +1,4 @@
-package tracker;
+package func;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 		BufferedReader reader = new BufferedReader(new FileReader("files/tracker.txt"));
 		String player;
 		
-		// register all the scouted player into the tracker ArrayList.
+		// register all scouted players to a Hashtable
 		while((player = reader.readLine()) != null)
 		{
 			StringTokenizer st = new StringTokenizer(player," ");
@@ -47,6 +47,7 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 		}	
 		reader.close();
 		
+		// convert table to a list and sort
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(scoutedPlayers.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare (Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
@@ -56,6 +57,7 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 			}
 		});
 		
+		// display result
 		MainWindow.GetInstance().updateOutput("Tracker Report\n");
 		
 		int i=1;

@@ -10,7 +10,6 @@ import draftClass.DraftClass;
 
 import main.MainWindow;
 
-
 public class BigBoardWorker extends SwingWorker<Object, Object> {
 	
 	public BigBoardWorker()

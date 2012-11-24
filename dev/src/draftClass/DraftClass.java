@@ -6,7 +6,6 @@ import java.util.*;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 import main.MainWindow;
 
@@ -19,7 +18,7 @@ public class DraftClass {
 		+ "CON GRE LOY PFW PT PER DUR WE POP Dunk Post Drive Jumper Three "
 		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "
 		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "; 
-	
+	// use to randomize scouting reports
 	private Random rand = new Random();
 		
 	public DraftClass() throws IOException
@@ -29,13 +28,12 @@ public class DraftClass {
 	
 	public void generateDraftClass(String filename) throws IOException
 	{
-		String firstLine = "";
-		File inputWorkbook = new File(filename);
-		Workbook w;
-		
+		String firstLine = ""; // used to make sure prospect.xls is in correct order.
+	
 		try 
 		{
-			w = Workbook.getWorkbook(inputWorkbook);
+			File inputWorkbook = new File(filename);
+			Workbook w  = Workbook.getWorkbook(inputWorkbook);
 			Sheet sheet = w.getSheet(0);
 			
 			for (int j = 0; j < sheet.getColumns(); j++) 
@@ -47,7 +45,10 @@ public class DraftClass {
 			// check to make sure the file is in the correct order.
 			if(!firstLine.equals(ORDER))
 			{
-				MainWindow.GetInstance().updateOutput("ERROR: Order of columns is wrong!\n\n");
+				MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+						"ERROR: There is an error in prospect.xls!\n\n" +
+						"Check the column names and order.\n\n" + 
+						"\n=====  END ERROR MESSAGE  =====\n\n" );
 				return;
 			}
 			
@@ -61,43 +62,73 @@ public class DraftClass {
 				String name = firstName.getContents() + " " + lastName.getContents();
 	
 				// Row 0 = (CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP)
-				for (int j = 0; j < 9; j++) 
+				for (int j=0; j < 9; j++) 
 				{
-					Cell cell = sheet.getCell(j+8, i);
+					Cell cell = sheet.getCell(j+8,i);
 					rating[0][j] = Integer.parseInt(cell.getContents());
 				}
 				
 				// Row 1 = (Dunk, Post, Drive, Jumper, Three)
 				for (int j=0; j < 5; j++)
 				{
-					Cell cell = sheet.getCell(j+17, i);
+					Cell cell = sheet.getCell(j+17,i);
 					rating[1][j] = Integer.parseInt(cell.getContents());
 				}
 				
 				// Row 2 = (All current ratings - 16 total)
-				// Row 3 = (All potential ratings - 16 total)
-				for(int row=2; row<=3; row++)
+				for(int j=0; j < 16; j++)
 				{
-					for(int col=0; col < 16; col++)
-					{
-						Cell cell = sheet.getCell(col+22,i);
-						rating[row][col] = Integer.parseInt(cell.getContents());
-					}
+					Cell cell = sheet.getCell(j+22,i);
+					rating[2][j] = Integer.parseInt(cell.getContents());
+				}
+				
+				// Row 3 = (All potential ratings - 16 total)
+				for(int j=0; j < 16; j++)
+				{
+					Cell cell = sheet.getCell(j+38,i);
+					rating[3][j] = Integer.parseInt(cell.getContents());
 				}
 				
 				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
 			}	
 		} 
-		catch (BiffException e) 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
-			MainWindow.GetInstance().updateOutput("Error reading excel file!\n\n");
+			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+					"ERROR: Can't find file!\n\n" +
+					"Check to make sure prospect.xls is in the files folder.\n\n" + 
+					"\n=====  END ERROR MESSAGE  =====\n\n" );
 		} 
 	}
 	
 	public boolean checkName(String name)
 	{
 		return prospects.containsKey(name);
+	}
+
+	public int[] getPlayerRatings(String name)
+	{
+		int[][] ratings = prospects.get(name);
+		int[] player = new int[28]; 
+				
+		int j = 0;
+		for (int i=0; i < 16; i++)
+		{				
+			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4) // FGD, FGI, FGJ, FT, FG3
+			{
+				player[j] = ratings[2][i];
+			}
+			else
+			{
+				player[j] = ratings[2][i];
+				player[j+1] = ratings[3][i];
+				j++;
+			}
+			j++;
+		}
+				
+		return player;
 	}
 	
 	public int[] getScoutingReport(String name)
@@ -108,11 +139,11 @@ public class DraftClass {
 		int j = 0;
 		for (int i=0; i < 16; i++) // Rest of the ratings -- current and potential
 		{				
-			if(i == 0 || i == 1 || i == 2 || i == 4) // FGD, FGI, FGJ, FG3
+			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4) // FGD, FGI, FGJ, FT, FG3
 			{
 				scoutingReport[j] = randomCurrent2(ratings[2][i]);
 			}
-			else if (i == 12)
+			else if (i == 12) // DRFL
 			{
 				scoutingReport[j] = randomCurrent2(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential2(scoutingReport[j], ratings[3][i]);
@@ -127,18 +158,13 @@ public class DraftClass {
 			j++;
 		}
 		
-		for(int i=0; i < 28; i++)
-			System.out.print(scoutingReport[i] + " ");
-		
-		System.out.println();
-		
 		return scoutingReport;
 	}
 	
 	public int[] getInterview(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] interview = new int[10];
+		int[] interview = new int[15];
 		
 		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
 		for (int i=0; i < 5 ; i++)
@@ -146,12 +172,12 @@ public class DraftClass {
 			interview[i] = ratings[1][i];
 		}
 		
-		interview[5] = randomInterview(ratings[3][15]);
-		
-		for (int i=6; i < 15; i++)
+		for (int i=0; i < 9; i++)
 		{
-			interview[i] = randomInterview(ratings[0][i]);
+			interview[i+5] = randomInterview(ratings[0][i]);
 		}
+		
+		interview[14] = ratings[3][15]; // Potential IQ - True Rating
 		
 		return interview;
 	}
@@ -193,7 +219,7 @@ public class DraftClass {
 
 	}
 	
-	// random number generator for FGD, FGI, FGJ, FG3, DRFL
+	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
 	public int randomCurrent2(int rtg) // +/- 2 deviation
 	{
 		int min = rtg - 2;
@@ -205,6 +231,7 @@ public class DraftClass {
 		return num;
 	}
 	
+	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
 	public int randomPotential2(int min, int max) // +/- 2 deviation
 	{
 		max = max - 2;

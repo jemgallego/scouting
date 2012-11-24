@@ -18,7 +18,7 @@ import main.MainWindow;
 public class InterviewWorker extends SwingWorker<Object, Object> {
 	
 	private static DraftClass rookies;
-	private enum Intangibles {CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP}; 
+	private enum InterviewResult {Dunk, Post, Drive, Jumper, Three, CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP, IQ}; 
 	private File directory;
 	private BufferedWriter interviews;
 	
@@ -88,17 +88,15 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 		}
 		
 		int[] interview = rookies.getInterview(name);
-		int i=1;
+		int i=0;
 		
 		interviews.append(name + "\n");
-		interviews.append("IQ: " + interview[0] + "\n");
 		
-		for (Intangibles category : Intangibles.values())
+		for (InterviewResult category : InterviewResult.values())
 		{
 			interviews.append(category + ": " + interview[i] + "\n");
 			i++;
 		}
-
 	}
 }
 

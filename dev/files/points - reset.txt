@@ -1,5 +1,6 @@
 Atlanta Hawks 0
 Boston Celtics 0
+Brooklyn Nets 0
 Charlotte Bobcats 0
 Chicago Bulls 0
 Cleveland Cavaliers 0
@@ -15,7 +16,6 @@ Memphis Grizzlies 0
 Miami Heat 0
 Milwaukee Bucks 0
 Minnesota Timberwolves 0
-New Jersey Nets 0
 New Orleans Hornets 0
 New York Knicks 0
 Oklahoma City Thunder 0

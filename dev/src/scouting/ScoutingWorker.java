@@ -10,19 +10,16 @@ import java.util.*;
 
 import javax.swing.SwingWorker;
 
+import resources.TeamList;
+
 import draftClass.DraftClass;
-import extra.TeamList;
-
-
-
 import main.MainWindow;
 
 public class ScoutingWorker extends SwingWorker<Object, Object> {
 	private Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>();
 	private Hashtable<String, Integer> teamPoints = new Hashtable<String,Integer>();
 
-	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR,
-		PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
+	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 	
 	private static DraftClass prospects;
 	private File directory;
@@ -49,7 +46,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	{
 		prospects = new DraftClass(); // Generate ratings table for draft class	
 		File files[] = directory.listFiles(); // Get all the files in the directory.
-		TeamList teamList = new TeamList();
+		TeamList teamList = new TeamList(); 
 		
 		BufferedReader trackerReader = new BufferedReader(new FileReader("files/tracker.txt"));
 		BufferedReader pointsReader = new BufferedReader(new FileReader("files/points.txt"));
@@ -94,6 +91,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 				BufferedReader br = new BufferedReader(new FileReader(f));
 				
 				String teamName;
+				String name;
 				String str; 
 				int count = 0;
 			
@@ -117,20 +115,20 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 					if(str.isEmpty())
 						continue;	
 									
-					str = str.trim();
+					name = str.trim();
 					
 					// check if player has been scouted before
-					if(scoutedPlayers.containsKey(str))
+					if(scoutedPlayers.containsKey(name))
 					{
-						int num = scoutedPlayers.get(str) + 1;
-						scoutedPlayers.put(str,num);
+						int num = scoutedPlayers.get(name) + 1;
+						scoutedPlayers.put(name,num);
+					} // else check if player name exists. 
+					else if (prospects.checkName(name))
+					{
+						scoutedPlayers.put(name,1);
 					}
-					else
-						scoutedPlayers.put(str,1);
 					
-					getScoutingReport(str);
-						
-					reports.append("\n");
+					generateReport(name); // generate scouting report for this player						
 					count++; // keep track of total scouting points used.
 				}	
 				br.close();
@@ -147,8 +145,8 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		
 		while(it.hasNext())
 		{
-			String p = it.next();
-			tracker.append(p + " " + scoutedPlayers.get(p) + "\n");
+			String sp = it.next();
+			tracker.append(sp + " " + scoutedPlayers.get(sp) + "\n");
 		}
 		tracker.close();
 		
@@ -158,15 +156,15 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		
 		while(it2.hasNext())
 		{
-			String p = it2.next();
-			points.append(p + " " + teamPoints.get(p) + "\n");
+			String tp = it2.next();
+			points.append(tp + " " + teamPoints.get(tp) + "\n");
 		}
 		points.close();
 		
 		MainWindow.GetInstance().updateOutput("\nSCOUTING -- DONE\n");
 	}
 	
-	public void getScoutingReport(String name) throws IOException
+	public void generateReport(String name) throws IOException
 	{
 		// Error check: Name
 		if (!prospects.checkName(name))
@@ -182,7 +180,8 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		
 		for (Rating category : Rating.values())
 		{
-			if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ || category == Rating.FG3)
+			if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ || 
+				category == Rating.FT || category == Rating.FG3)
 			{
 				reports.append(category + ": " + rating[i] + "\n");
 			}
@@ -193,6 +192,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 			}
 			i++;
 		}
+		reports.append("\n");
 	}
 }
 
