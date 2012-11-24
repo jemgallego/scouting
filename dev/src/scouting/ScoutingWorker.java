@@ -10,10 +10,6 @@ import java.util.*;
 
 import javax.swing.SwingWorker;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-
 import resources.DraftClass;
 import resources.TeamList;
 
@@ -52,36 +48,20 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		File files[] = directory.listFiles(); // Get all the files in the directory.
 		TeamList teamList = new TeamList(); 
 		
+		BufferedReader trackerReader = new BufferedReader(new FileReader("files/tracker.txt"));
 		BufferedReader pointsReader = new BufferedReader(new FileReader("files/points.txt"));
+		String player;
 		String team;
+				
+		// import the contents of tracker.txt into our scoutedPlayers table.
+		while((player = trackerReader.readLine()) != null)
+		{
+			StringTokenizer st = new StringTokenizer(player," ");
+			String name = st.nextToken() + " " + st.nextToken();
+			scoutedPlayers.put(name, Integer.parseInt(st.nextToken()));
+		}	
+		trackerReader.close();
 		
-		try 
-		{
-			File inputWorkbook = new File("files/tracker.xls");
-			Workbook w  = Workbook.getWorkbook(inputWorkbook);
-			Sheet sheet = w.getSheet(0);
-			
-			// import the contents of tracker.xls into our scoutedPlayers table.
-			for(int i = 1; i < sheet.getRows(); i++)
-			{
-				Cell firstName = sheet.getCell(0,i);
-				Cell lastName = sheet.getCell(1,i);
-				String name = firstName.getContents() + " " + lastName.getContents();
-				
-				Integer total = Integer.parseInt(sheet.getCell(2,i).getContents());
-				
-				scoutedPlayers.put(name, total);
-			}
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-					"ERROR: Can't find tracker.xls file!\n\n" +
-					"Check to make sure tracker.xls is in the files folder.\n\n" + 
-					"\n=====  END ERROR MESSAGE  =====\n\n" );
-		} 
-					
 		// import the contents of points.txt into our teamPoints table.
 		while((team = pointsReader.readLine()) != null)
 		{
@@ -163,9 +143,9 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(scoutedPlayers.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare (Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
-				Integer i1 = (Integer) e1.getValue();
-				Integer i2 = (Integer) e2.getValue();
-				return i2.compareTo(i1);
+				String i1 = e1.getKey();
+				String i2 = e2.getKey();
+				return i1.compareTo(i2);
 			}
 		});
 		
@@ -176,13 +156,18 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		tracker.close();
 		
 		// Update Points File
-		Set<String> s2 = teamPoints.keySet();
-		Iterator<String> it2 = s2.iterator();
+		List<Map.Entry<String, Integer>> list2 = new ArrayList<Map.Entry<String, Integer>>(teamPoints.entrySet());
+		Collections.sort(list2, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare (Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
+				String i1 = e1.getKey();
+				String i2 = e2.getKey();
+				return i1.compareTo(i2);
+			}
+		});
 		
-		while(it2.hasNext())
+		for(Map.Entry<String, Integer> e : list2)
 		{
-			String tp = it2.next();
-			points.append(tp + " " + teamPoints.get(tp) + "\n");
+			points.append(e.getKey() + " " + e.getValue() + "\n");
 		}
 		points.close();
 		

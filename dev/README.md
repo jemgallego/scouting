@@ -9,11 +9,10 @@ PENDING
 + increase INTERVIEW deviations to +/-15? 
 + possibly merge Tracker and Bigboard into one. -- fix this in ScoutingWorker
 + double check Scouting output
-+ Show only potential for FGI, FGJ, etc..
 + The Green Room Rule for workouts. Players will skip certain workouts based on position 
 + Attach Tracker to Big Board. 
 + Check for Tracker file, if one doesn't exist, initialize one (for preseason big board)
-+ fix player Finder
+
 
 SCOUTING MANUAL 
 --
@@ -24,7 +23,6 @@ SCOUTING MANUAL
 
 RElEASE NOTES
 --
-
 + Switch file input from .txt files to .xls files
 + Added keyboard shortcuts to the menu bar.
 + Interview IQ Potential = true rating
