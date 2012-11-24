@@ -1,11 +1,75 @@
 
 GOLDEN STATE WARRIORS
 
-ERROR: Name Not Found! 
- --/--
-ERROR: Name Not Found! 
- --/--
-ERROR: Name Not Found! 
- --/--
-ERROR: Name Not Found! 
- --/--
+Quincy Acy
+FGD: 9
+FGI: 24
+FGJ: 35
+FT: 34
+FG3: 34
+SCR: 12/32
+PAS: 24/69
+HDL: 39/81
+ORB: 39/100
+DRB: 54/97
+BLK: 62/100
+STL: 71/99
+DRFL: 6/17
+DEF: 79/82
+DIS: 100/100
+IQ: 0/37
+
+Royce White
+FGD: 18
+FGI: 19
+FGJ: 19
+FT: 71
+FG3: 19
+SCR: 91/91
+PAS: 83/83
+HDL: 94/100
+ORB: 96/100
+DRB: 85/100
+BLK: 91/91
+STL: 91/91
+DRFL: 6/6
+DEF: 85/85
+DIS: 92/92
+IQ: 90/100
+
+Marquis Teague
+FGD: 21
+FGI: 18
+FGJ: 21
+FT: 69
+FG3: 19
+SCR: 97/97
+PAS: 92/92
+HDL: 97/97
+ORB: 97/97
+DRB: 96/96
+BLK: 88/90
+STL: 91/91
+DRFL: 5/5
+DEF: 84/100
+DIS: 94/100
+IQ: 94/100
+
+Tony Wroten
+FGD: 22
+FGI: 21
+FGJ: 21
+FT: 71
+FG3: 22
+SCR: 94/94
+PAS: 92/100
+HDL: 85/85
+ORB: 89/100
+DRB: 97/100
+BLK: 92/95
+STL: 83/89
+DRFL: 3/6
+DEF: 95/95
+DIS: 89/96
+IQ: 93/93
+

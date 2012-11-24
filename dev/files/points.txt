@@ -6,25 +6,25 @@ Houston Rockets 0
 Miami Heat 0
 Los Angeles Clippers 0
 Orlando Magic 0
-Brooklyn Nets 0
-Memphis Grizzlies 0
+Memphis Grizzlies 7
 Toronto Raptors 0
 Philadelphia 76ers 0
-Golden State Warriors 0
+Golden State Warriors 7
 Indiana Pacers 0
 Oklahoma City Thunder 0
 Utah Jazz 0
 Cleveland Cavaliers 0
 Chicago Bulls 0
-Los Angeles Lakers 0
 Atlanta Hawks 0
+Los Angeles Lakers 0
 Milwaukee Bucks 0
 Denver Nuggets 0
-Boston Celtics 0
 Minnesota Timberwolves 0
-San Antonio Spurs 0
+Boston Celtics 0
 Charlotte Bobcats 0
+San Antonio Spurs 0
+Brooklyn Nets 3
 New York Knicks 0
-New Orleans Hornets 0
 Dallas Mavericks 0
+New Orleans Hornets 0
 Sacramento Kings 0

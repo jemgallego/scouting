@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.*;
 import javax.swing.SwingWorker;
 
-import draftClass.DraftClass;
+import resources.DraftClass;
+
 
 
 

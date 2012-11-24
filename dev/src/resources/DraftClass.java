@@ -1,4 +1,4 @@
-package draftClass;
+package resources;
 
 import java.io.*;
 import java.util.*;
@@ -90,13 +90,14 @@ public class DraftClass {
 				}
 				
 				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
-			}	
+			}
+			w.close();
 		} 
 		catch (Exception e) 
 		{
 			e.printStackTrace();
 			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-					"ERROR: Can't find file!\n\n" +
+					"ERROR: Can't find prospect.xls file!\n\n" +
 					"Check to make sure prospect.xls is in the files folder.\n\n" + 
 					"\n=====  END ERROR MESSAGE  =====\n\n" );
 		} 

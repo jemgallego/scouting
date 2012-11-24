@@ -3,7 +3,8 @@ package func;
 import java.io.IOException;
 import javax.swing.SwingWorker;
 
-import draftClass.DraftClass;
+import resources.DraftClass;
+
 import main.MainWindow;
 
 public class FinderWorker extends SwingWorker<Object, Object> {

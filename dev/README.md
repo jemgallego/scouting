@@ -7,8 +7,8 @@ PENDING
 --
 + ask Najira if he's changing potential for FGD, FGI, FGJ, FT, FG3
 + increase INTERVIEW deviations to +/-15? 
++ possibly merge Tracker and Bigboard into one. -- fix this in ScoutingWorker
 + double check Scouting output
-+ Add Save function to Tracker? 
 + Show only potential for FGI, FGJ, etc..
 + The Green Room Rule for workouts. Players will skip certain workouts based on position 
 + Attach Tracker to Big Board. 
