@@ -45,17 +45,8 @@ public class FinderWorker extends SwingWorker<Object, Object> {
 			
 			for (Rating category : Rating.values())
 			{
-				if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ ||
-					category == Rating.FT || category == Rating.FG3)
-				{
-					MainWindow.GetInstance().updateOutput(category + ": " + rating[i] + "\n");
-				}
-				else
-				{
-					MainWindow.GetInstance().updateOutput(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
-					i++;
-				}
-				i++;
+				MainWindow.GetInstance().updateOutput(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
+				i+=2;
 			}	
 		}	
 	}

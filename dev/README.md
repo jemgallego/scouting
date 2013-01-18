@@ -23,6 +23,6 @@ SCOUTING MANUAL
 
 RElEASE NOTES
 --
-+ Switch file input from .txt files to .xls files
++ Switched file input from .txt files to .xls files
 + Added keyboard shortcuts to the menu bar.
 + Interview IQ Potential = true rating

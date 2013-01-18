@@ -7,12 +7,12 @@ Cleveland Cavaliers 0
 Dallas Mavericks 0
 Denver Nuggets 0
 Detroit Pistons 0
-Golden State Warriors 11
+Golden State Warriors 15
 Houston Rockets 0
 Indiana Pacers 0
 Los Angeles Clippers 0
 Los Angeles Lakers 0
-Memphis Grizzlies 11
+Memphis Grizzlies 15
 Miami Heat 0
 Milwaukee Bucks 0
 Minnesota Timberwolves 0

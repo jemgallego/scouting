@@ -111,22 +111,14 @@ public class DraftClass {
 	public int[] getPlayerRatings(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] player = new int[28]; 
+		int[] player = new int[32]; 
 				
 		int j = 0;
 		for (int i=0; i < 16; i++)
 		{				
-			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4) // FGD, FGI, FGJ, FT, FG3
-			{
-				player[j] = ratings[2][i];
-			}
-			else
-			{
-				player[j] = ratings[2][i];
-				player[j+1] = ratings[3][i];
-				j++;
-			}
-			j++;
+			player[j] = ratings[2][i];
+			player[j+1] = ratings[3][i];
+			j+=2;
 		}
 				
 		return player;
@@ -135,16 +127,12 @@ public class DraftClass {
 	public int[] getScoutingReport(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] scoutingReport = new int[28]; 
+		int[] scoutingReport = new int[32]; 
 				
 		int j = 0;
 		for (int i=0; i < 16; i++) // Rest of the ratings -- current and potential
 		{				
-			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4) // FGD, FGI, FGJ, FT, FG3
-			{
-				scoutingReport[j] = randomCurrent2(ratings[2][i]);
-			}
-			else if (i == 12) // DRFL
+			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 12) // FGD, FGI, FGJ, FT, FG3, DRFL
 			{
 				scoutingReport[j] = randomCurrent2(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential2(scoutingReport[j], ratings[3][i]);

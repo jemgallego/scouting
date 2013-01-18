@@ -1,0 +1,39 @@
+
+NETS
+
+Marquis Teague
+FGD: 20
+FGI: 20
+FGJ: 20
+FG3: 70
+FT: 20
+SCR: 90
+PAS: 90
+HDL: 90
+ORB: 90
+DRB: 90
+DEF: 90
+BLK: 90
+STL: 5
+DRFL: 90
+DIS: 90
+IQ: 90
+
+Marquis Teague
+FGD: 20
+FGI: 20
+FGJ: 20
+FG3: 70
+FT: 20
+SCR: 90
+PAS: 90
+HDL: 90
+ORB: 90
+DRB: 90
+DEF: 90
+BLK: 90
+STL: 5
+DRFL: 90
+DIS: 90
+IQ: 90
+

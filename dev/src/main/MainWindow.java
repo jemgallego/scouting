@@ -79,23 +79,24 @@ public final class MainWindow implements Runnable {
     	Color menuBarColor = new Color(214,217,223);
     	
     	// build the file menu
-    	JMenuItem openFile = new JMenuItem("Open File");
+    	JMenuItem selectFolder = new JMenuItem("Select Folder");
     	JMenuItem exit = new JMenuItem("Exit");
     	
-    	openFile.addActionListener(new OpenFileButtonListener());
-    	openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_DOWN_MASK));
+    	selectFolder.addActionListener(new SelectFolderButtonListener());
+    	selectFolder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.META_DOWN_MASK));
     	
     	exit.addActionListener(new ExitButtonListener());
     	exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.META_DOWN_MASK));
     	
     	fileMenu.setBackground(menuBarColor);
-    	fileMenu.add(openFile);
+    	fileMenu.add(selectFolder);
     	fileMenu.add(exit);
     	
     	// build the extras menu
     	JMenuItem finder = new JMenuItem("Prospect Finder");
     	JMenuItem basicSheet = new JMenuItem ("Basic Sheet");
     	JMenuItem points = new JMenuItem ("Points");
+    	JMenuItem tracker = new JMenuItem ("Tracker");
     	
     	finder.addActionListener(new FinderButtonListener());
     	finder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.META_DOWN_MASK));
@@ -106,10 +107,14 @@ public final class MainWindow implements Runnable {
     	points.addActionListener(new PointsButtonListener());
     	points.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.META_DOWN_MASK));
     	
+    	tracker.addActionListener(new TrackerButtonListener());
+    	tracker.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.META_DOWN_MASK));
+    	
     	extrasMenu.setBackground(menuBarColor);
     	extrasMenu.add(finder);
     	extrasMenu.add(basicSheet);
     	extrasMenu.add(points);
+    	extrasMenu.add(tracker);
     	
     	// build the help menu
     	JMenuItem FAQ = new JMenuItem("FAQ");
@@ -132,18 +137,18 @@ public final class MainWindow implements Runnable {
 	
 	public void run()
 	{
-        //set the icon image and layout manager of the rootPane
-        //f.setIconImage(Program.windowIcon);
+        // set the icon image and layout manager of the rootPane
+        // f.setIconImage(Program.windowIcon);
         f.setLayout(new BorderLayout());
 
-        //dimensions used for empty fillers
+        // dimensions used for empty fillers
         Dimension minDim = new Dimension(25, 10);
         Dimension prefDim = new Dimension(150, 10);
         Dimension maxDim = new Dimension(Short.MAX_VALUE, 10);
 
-        //configure component sizes
+        // configure component sizes
      
-        //border adjustments
+        // border adjustments
       
         mainBox.setBorder(new EmptyBorder(new Insets(0,10,10,10)));
         selectedFolderLabel.setBorder(new EmptyBorder(new Insets(0,6,10,0)));
@@ -153,9 +158,9 @@ public final class MainWindow implements Runnable {
         selectedFolderBox.setBorder(new EmptyBorder(new Insets(10,0,0,10)));
         outputLabelBox.setBorder(new EmptyBorder(new Insets(0,0,0,10)));
         
-        //alignment adjustments (all components must have the same alignment
-        //when using box layout to prevent left aligning to the center of
-        //center aligned components)
+        // alignment adjustments (all components must have the same alignment
+        // when using box layout to prevent left aligning to the center of
+        // center aligned components)
         selectedFolderBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         buttonBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         miscBox.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -176,10 +181,10 @@ public final class MainWindow implements Runnable {
         buttonBox.add(bigBoardButton);
         buttonBox.add(trackerButton);
         
-        statusBox.add(statusLabel);
-        statusBox.add(new Box.Filler(minDim, prefDim, maxDim));
+        // statusBox.add(statusLabel);
+        // statusBox.add(new Box.Filler(minDim, prefDim, maxDim));
 
-        //add everything to the main box
+        // add everything to the main box
         mainBox.add(selectedFolderBox);
         mainBox.add(buttonBox);
         mainBox.add(miscBox);
@@ -238,11 +243,11 @@ public final class MainWindow implements Runnable {
         }
     }
     
-    class OpenFileButtonListener implements ActionListener
+    class SelectFolderButtonListener implements ActionListener
     {
         JFileChooser fileChooser;
 	    
-	    public OpenFileButtonListener() 
+	    public SelectFolderButtonListener() 
 	    {
 	    	// limit selection to folders
 	    	fileChooser = new JFileChooser(".");
