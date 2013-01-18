@@ -36,9 +36,6 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	{        
 		conductScouting();
         
-        //set the status text in the main window back to idle
-		MainWindow.GetInstance().SetStatusIdle();
-        
 		return null;
 	}
 	

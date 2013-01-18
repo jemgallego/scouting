@@ -22,10 +22,7 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 	public Object doInBackground() throws IOException
 	{        
 		generateBigBoard();
-        
-        //set the status text in the main window back to idle
-		MainWindow.GetInstance().SetStatusIdle();
-        
+                
 		return null;
 	}
 	
