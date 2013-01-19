@@ -130,7 +130,7 @@ public class DraftClass {
 		int[] scoutingReport = new int[32]; 
 				
 		int j = 0;
-		for (int i=0; i < 16; i++) // Rest of the ratings -- current and potential
+		for (int i=0; i < 16; i++)
 		{				
 			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 12) // FGD, FGI, FGJ, FT, FG3, DRFL
 			{
@@ -173,15 +173,8 @@ public class DraftClass {
 	
 	public int[] getWorkout(String name)
 	{
-		int[][] ratings = prospects.get(name);
-		int[] workout = new int[16];
-		
-		for (int i=0; i < 16; i++)
-		{
-			workout[i] = ratings[2][i];
-		}
-		
-		return workout;
+		// workouts return the same report as scouting
+		return getScoutingReport(name);
 	}
 	
 	// random number generator

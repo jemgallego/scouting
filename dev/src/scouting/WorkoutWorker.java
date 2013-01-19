@@ -11,15 +11,12 @@ import javax.swing.SwingWorker;
 import resources.DraftClass;
 
 
-
-
 import main.MainWindow;
 
 public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
-	private static DraftClass rookies;
-	private enum Rating {FGD, FGI, FGJ, FG3, FT, SCR,
-		PAS, HDL, ORB, DRB, DEF, BLK, STL, DRFL, DIS, IQ};
+	private static DraftClass prospects;
+	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 		
 	private File directory;
 	private BufferedWriter workouts;
@@ -43,7 +40,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
 	private void conductWorkouts() throws IOException
 	{
-		rookies = new DraftClass(); // Generate ratings table for rookie class
+		prospects = new DraftClass(); // Generate ratings table for rookie class
 		File files[] = directory.listFiles(); // Get all the files in the directory.
 		
 		for(File f: files)
@@ -83,23 +80,42 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
 	public void getWorkoutResults(String name) throws IOException
 	{
-		int i=0;
+//		int i=0;
+//		
+//		// Error check: Name
+//		if (!prospects.checkName(name))
+//		{
+//			workouts.append("ERROR: Name Not Found! \n --/--\n");
+//			return;
+//		}
+//	
+//		int[] workout = prospects.getWorkout(name);
+//		workouts.append(name + "\n");
+//	
+//		for (Rating category : Rating.values())
+//		{
+//			workouts.append(category + ": " + workout[i] + "\n");
+//			i++;
+//		}
 		
 		// Error check: Name
-		if (!rookies.checkName(name))
+		if (!prospects.checkName(name))
 		{
 			workouts.append("ERROR: Name Not Found! \n --/--\n");
 			return;
 		}
-	
-		int[] workout = rookies.getWorkout(name);
+		
 		workouts.append(name + "\n");
-	
+		
+		int[] rating = prospects.getWorkout(name);
+		int i = 0;
+		
 		for (Rating category : Rating.values())
 		{
-			workouts.append(category + ": " + workout[i] + "\n");
-			i++;
+			workouts.append(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
+			i+=2;
 		}
+		workouts.append("\n");
 	}
 }
 

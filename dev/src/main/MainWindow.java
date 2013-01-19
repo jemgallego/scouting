@@ -367,7 +367,7 @@ public final class MainWindow implements Runnable {
 	    	// Clear the textarea.
             clearOutput();
             
-            DraftCampWorker worker = new DraftCampWorker(getDirectory());   
+            DraftCampWorker worker = new DraftCampWorker();   
             
 		    worker.addPropertyChangeListener(new PropertyChangeListener() {
 			    public void propertyChange(PropertyChangeEvent evt) {

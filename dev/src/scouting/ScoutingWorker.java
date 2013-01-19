@@ -187,17 +187,17 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		
 		for (Rating category : Rating.values())
 		{
-			if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ || 
-				category == Rating.FT || category == Rating.FG3)
-			{
-				reports.append(category + ": " + rating[i] + "\n");
-			}
-			else
-			{
-				reports.append(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
-				i++;
-			}
-			i++;
+//			if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ || 
+//				category == Rating.FT || category == Rating.FG3)
+//			{
+//				reports.append(category + ": " + rating[i] + "\n");
+//			}
+//			else
+//			{
+			
+			reports.append(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
+			i+=2;
+//  		} i++;			
 		}
 		reports.append("\n");
 	}
