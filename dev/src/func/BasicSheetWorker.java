@@ -8,6 +8,12 @@ import java.util.StringTokenizer;
 
 import javax.swing.SwingWorker;
 
+import jxl.Workbook;
+import jxl.write.Number;
+import jxl.write.WritableCell;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+
 import main.MainWindow;
 
 public class BasicSheetWorker extends SwingWorker<Object, Object> {
@@ -20,78 +26,76 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 	@Override
 	public Object doInBackground() throws IOException
 	{        
-		generateSpreadsheet();
+		generateBasicSheet();
                 
 		return null;
 	}
 	
-	// create a text file of the basic spreadsheet. 
-	// you can then just copy and paste it to an Excel file.
-	private void generateSpreadsheet() throws IOException
-	{
-		Scanner sc = new Scanner(new File("files/Rookies.txt"));
-		PrintWriter pw = new PrintWriter(new File("basicSheet.txt"));
-		
-		String order = "FirstName LastName Position Age Height Weight Dunk Post Drive Jumper Three "
-			+ "FGD FGI FGJ FG3 FT SCR PAS HDL ORB DRB DEF BLK STL DRFL DIS IQ "
-			+ "FGD FGI FGJ FG3 FT SCR PAS HDL ORB DRB DEF BLK STL DRFL DIS IQ CON GRE LOY PFW PT PER DUR WE POP";
-		String firstLine = sc.nextLine();
-		firstLine = firstLine.replaceAll("\\s++", " ");
-		firstLine = firstLine.trim();
-		
-		if(!order.equals(firstLine))
+	private void generateBasicSheet() throws IOException
+	{		
+		try 
 		{
-			// check to make sure the file is in the correct order.
-			MainWindow.GetInstance().updateOutput("Error in Rookie file");
-			pw.close();
-			return;
+			Workbook template = Workbook.getWorkbook(new File("files/prospects.xls"));
+			WritableWorkbook w = Workbook.createWorkbook(new File("basicSheet.xls"), template);
+			
+			WritableSheet sheet = w.getSheet(0);
+			
+			for(int i = 1; i < sheet.getRows(); i++)
+			{
+				for(int j = 8; j < 17; j++)
+				{
+					WritableCell cell = sheet.getWritableCell(j,i);
+					int num = Integer.parseInt(cell.getContents());
+					
+					num = randomize(num);
+					
+					Number n = (Number)cell;
+					n.setValue(num);
+				}
+				
+				for(int j = 22; j < 38; j++)
+				{
+					WritableCell cell = sheet.getWritableCell(j,i);
+					int num = Integer.parseInt(cell.getContents());
+					
+					if (j == 22 || j == 23 || j == 24 || j == 25 || j == 26 || j == 34) // FGD, FGI, FGJ, FT, FG3, DRFL
+						num = randomizeFG(num);
+					else
+						num = randomize(num);
+						
+					Number n = (Number)cell;					
+					n.setValue(num);
+				}
+				
+				for(int j = 38; j < sheet.getColumns(); j++)
+				{
+					WritableCell cell = sheet.getWritableCell(j,i);
+					int num = Integer.parseInt(cell.getContents());
+					
+					num = randomizePotential(num);
+					
+					Number n = (Number)cell;
+					n.setValue(num);
+				}
+			}
+			
+			MainWindow.GetInstance().updateOutput("Generate Basic Spreadsheet -- DONE");
+			w.write();
+			w.close();
+			
 		}
-		
-		while (sc.hasNext())
+		catch (Exception e) 
 		{
-			String str = sc.nextLine();	
-			str = str.replaceAll("\\s++", " ");
-			str = str.trim();
-			
-			StringTokenizer st = new StringTokenizer(str," ");
-			
-			// write FirstName, LastName, Position, Age.
-			for(int i=0; i < 4; i++)
-			{
-				pw.write(st.nextToken() +"\t");
-			}
-			
-			// skip the next 7 tokens. we don't want these in the basic sheet.
-			for(int i=0; i < 7; i++)
-			{
-				st.nextToken();
-				pw.write("\t");
-			}
-			
-			// get the next 16 tokens
-			// these are all the current ratings
-			for(int i=0; i < 16; i++)
-			{		
-				int rtg = (Integer.parseInt(st.nextToken()));
-					
-				if (i == 1 || i == 2 || i == 3 || i == 13) // FGI, FGJ, FG3, DRFL
-					rtg = randomSheet2(rtg);
-				else
-					rtg = randomSheet(rtg);
-
-				pw.write(rtg + "\t\t"); // two tabs because we're leaving potential blank.
-			}
-					
-			pw.write("\n");
-		}		
+			e.printStackTrace();
+			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+					"UNKNOWN ERROR: Generating excel file failed!\n\n" +
+					"\n=====  END ERROR MESSAGE  =====\n\n" );
+		} 
 		
-		// update the main window as soon as we're done.
-		MainWindow.GetInstance().updateOutput("Generate Basic Spreadsheet -- DONE");
-		pw.close();
 	}
 	
 	// random generator for basic sheet.
-	public int randomSheet(int rtg) // +/- 10 deviation
+	public int randomize(int rtg) // +/- 10 deviation
 	{
 		Random rand = new Random();
 		
@@ -104,14 +108,27 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 		return num;
 	}
 	
-	// random number generator for FGI, FGJ, FG3, DRFL
-	public int randomSheet2(int rtg) // +/- 4 deviation
+	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
+	public int randomizeFG(int rtg) // +/- 5 deviation
 	{
 		Random rand = new Random();
 		
-		int min = rtg - 4;
-		int num = rand.nextInt(5) + min;
+		int min = rtg - 5;
+		int num = rand.nextInt(11) + min;
 	
+		if(num < 0) num = 0;
+		else if (num > 100) num = 100;
+		
+		return num;
+	}
+	
+	public int randomizePotential(int rtg) // +/- 20 deviation
+	{
+		Random rand = new Random();
+		
+		int min = rtg - 20;
+		int num = rand.nextInt(45) + min;
+		
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
 		
