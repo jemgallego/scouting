@@ -18,7 +18,7 @@ import main.MainWindow;
 public class ScoutingWorker extends SwingWorker<Object, Object> {
 	private Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>();
 	private Hashtable<String, Integer> teamPoints = new Hashtable<String,Integer>();
-
+	private enum ShotSelection {Dunk, Post, Drive, Jumper, Threes};
 	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 	
 	private static DraftClass prospects;
@@ -185,19 +185,16 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		int[] rating = prospects.getScoutingReport(name);
 		int i = 0;
 		
+		for (ShotSelection category : ShotSelection.values())
+		{
+			reports.append(category + ": " + rating[i] + "\n");
+			i++;
+		}
+		
 		for (Rating category : Rating.values())
 		{
-//			if (category == Rating.FGD || category == Rating.FGI || category == Rating.FGJ || 
-//				category == Rating.FT || category == Rating.FG3)
-//			{
-//				reports.append(category + ": " + rating[i] + "\n");
-//			}
-//			else
-//			{
-			
 			reports.append(category + ": " + rating[i] + "/" + rating[i+1] + "\n");
 			i+=2;
-//  		} i++;			
 		}
 		reports.append("\n");
 	}

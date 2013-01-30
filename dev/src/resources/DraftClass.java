@@ -124,57 +124,76 @@ public class DraftClass {
 		return player;
 	}
 	
+	// Scouting Report
 	public int[] getScoutingReport(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] scoutingReport = new int[32]; 
+		int[] scoutingReport = new int[37]; 
 				
-		int j = 0;
+		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
+		for (int i=0; i<16; i++)
+		{
+			scoutingReport[i] = ratings[1][i];
+		}
+		
+		int j = 5;
 		for (int i=0; i < 16; i++)
 		{				
 			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 12) // FGD, FGI, FGJ, FT, FG3, DRFL
 			{
 				scoutingReport[j] = randomCurrent2(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential2(scoutingReport[j], ratings[3][i]);
-				j++;
 			}
 			else
 			{
 				scoutingReport[j] = randomCurrent(ratings[2][i]);
 				scoutingReport[j+1] = randomPotential(scoutingReport[j], ratings[3][i]);
-				j++;
 			}
-			j++;
+			j+=2;
 		}
 		
 		return scoutingReport;
 	}
 	
+	// Interview Report
 	public int[] getInterview(String name)
 	{
 		int[][] ratings = prospects.get(name);
-		int[] interview = new int[15];
+		int[] interview = new int[10];
 		
-		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
-		for (int i=0; i < 5 ; i++)
-		{
-			interview[i] = ratings[1][i];
-		}
+		interview[0] = ratings[3][15]; // Potential IQ - True Rating
 		
 		for (int i=0; i < 9; i++)
 		{
-			interview[i+5] = randomInterview(ratings[0][i]);
+			interview[i+1] = randomInterview(ratings[0][i]);
 		}
-		
-		interview[14] = ratings[3][15]; // Potential IQ - True Rating
-		
+				
 		return interview;
 	}
 	
+	// Workout Report
 	public int[] getWorkout(String name)
 	{
-		// workouts return the same report as scouting
-		return getScoutingReport(name);
+		int[][] ratings = prospects.get(name);
+		int[] workout = new int[32]; 
+				
+		int j = 0;
+		for (int i=0; i < 16; i++)
+		{				
+			if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 12) // FGD, FGI, FGJ, FT, FG3, DRFL
+			{
+				workout[j] = randomCurrent2(ratings[2][i]);
+				workout[j+1] = randomPotential2(workout[j], ratings[3][i]);
+			}
+			else
+			{
+				workout[j] = randomCurrent(ratings[2][i]);
+				workout[j+1] = randomPotential(workout[j], ratings[3][i]);
+			}
+			j+=2;
+		}
+		
+		return workout;
 	}
 	
 	// random number generator
@@ -202,10 +221,10 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomCurrent2(int rtg) // +/- 2 deviation
+	public int randomCurrent2(int rtg) // +/- 3 deviation
 	{
-		int min = rtg - 2;
-		int num = rand.nextInt(5) + min;
+		int min = rtg - 3;
+		int num = rand.nextInt(7) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
@@ -214,10 +233,10 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomPotential2(int min, int max) // +/- 2 deviation
+	public int randomPotential2(int min, int max) // +/- 3 deviation
 	{
-		max = max - 2;
-		int num = rand.nextInt(5) + max;
+		max = max - 3;
+		int num = rand.nextInt(7) + max;
 	
 		if(num < min) num = min;
 		else if (num > 100) num = 100;
@@ -225,13 +244,13 @@ public class DraftClass {
 		return num;
 	}	
 	
-	public int randomInterview(int rtg) // +/- 10 deviation
+	public int randomInterview(int rtg) // +/- 15 deviation
 	{
-		int min = rtg - 10;
-		int num = rand.nextInt(21) + min;
+		int min = rtg - 15;
+		int num = rand.nextInt(31) + min;
 	
 		if(num < 0) num = 0;
-		else if (num > 99) num = 99;
+		else if (num > 100) num = 100;
 		
 		return num;
 	}
