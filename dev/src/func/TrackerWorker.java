@@ -1,5 +1,6 @@
 package func;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,11 +16,22 @@ import javax.swing.SwingWorker;
 import main.MainWindow;
 
 public class TrackerWorker extends SwingWorker<Object, Object>{
-	private Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>();
+	private static Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>();
 	
-	public TrackerWorker()
+	public TrackerWorker() throws IOException
 	{
-		setProgress(0);
+		BufferedReader reader = new BufferedReader(new FileReader("files/tracker.txt"));
+		String player;
+		
+		// register all scouted players to a Hashtable
+		while((player = reader.readLine()) != null)
+		{
+			StringTokenizer st = new StringTokenizer(player," ");
+			String name = st.nextToken() + " " + st.nextToken();
+			scoutedPlayers.put(name, Integer.parseInt(st.nextToken()));
+		}	
+		reader.close();
+		
 	}
 	
 	@Override
@@ -35,18 +47,6 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 		
 	public void displayTracker() throws IOException
 	{
-		BufferedReader reader = new BufferedReader(new FileReader("files/tracker.txt"));
-		String player;
-		
-		// register all scouted players to a Hashtable
-		while((player = reader.readLine()) != null)
-		{
-			StringTokenizer st = new StringTokenizer(player," ");
-			String name = st.nextToken() + " " + st.nextToken();
-			scoutedPlayers.put(name, Integer.parseInt(st.nextToken()));
-		}	
-		reader.close();
-		
 		// convert table to a list and sort
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(scoutedPlayers.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
@@ -66,5 +66,17 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 			MainWindow.GetInstance().updateOutput(i + ". " + e.getKey() + " " + e.getValue() + "\n");
 			i++;
 		}
+	}
+	
+	public int getTimesScouted(String name)
+	{
+		int num = 0; 
+			
+		if(scoutedPlayers.get(name) == null)
+			num = 0;
+		else
+			num = scoutedPlayers.get(name);
+		
+		return num;
 	}
 }

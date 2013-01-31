@@ -20,6 +20,7 @@ public class DraftClass {
 		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "; 
 	// use to randomize scouting reports
 	private Random rand = new Random();
+	private ArrayList<String> prospectNames = new ArrayList<String>();
 		
 	public DraftClass() throws IOException
 	{
@@ -46,7 +47,7 @@ public class DraftClass {
 			if(!firstLine.equals(ORDER))
 			{
 				MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-						"ERROR: There is an error in prospect.xls!\n\n" +
+						"ERROR: There is an error in prospects.xls!\n\n" +
 						"Check the column names and order.\n\n" + 
 						"\n=====  END ERROR MESSAGE  =====\n\n" );
 				return;
@@ -54,12 +55,13 @@ public class DraftClass {
 			
 			for(int i = 1; i < sheet.getRows(); i++) 
 			{
-				int[][] rating = new int[4][16];
+				int[][] rating = new int[5][16];
 				
 				// Get the player name
 				Cell firstName = sheet.getCell(0,i);
 				Cell lastName = sheet.getCell(1,i);
-				String name = firstName.getContents() + " " + lastName.getContents();
+				String name = firstName.getContents().trim() + " " + lastName.getContents().trim();
+				prospectNames.add(name);
 	
 				// Row 0 = (CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP)
 				for (int j=0; j < 9; j++) 
@@ -89,6 +91,15 @@ public class DraftClass {
 					rating[3][j] = Integer.parseInt(cell.getContents());
 				}
 				
+				// Row 4 = (POS, AGE, DH, WEIGHT)
+				// NOTE: We skip DH so rating[4][3] has 0 values.
+				for(int j=0; j < 5; j++)
+				{
+					if(j == 3) continue;
+					Cell cell = sheet.getCell(j+2, i);
+					rating[4][j] = Integer.parseInt(cell.getContents());
+				}
+				
 				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
 			}
 			w.close();
@@ -97,8 +108,8 @@ public class DraftClass {
 		{
 			e.printStackTrace();
 			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-					"ERROR: Can't find prospect.xls file!\n\n" +
-					"Check to make sure prospect.xls is in the files folder.\n\n" + 
+					"ERROR: Can't find prospects.xls file!\n\n" +
+					"Check to make sure prospects.xls is in the files folder.\n\n" + 
 					"\n=====  END ERROR MESSAGE  =====\n\n" );
 		} 
 	}
@@ -106,6 +117,44 @@ public class DraftClass {
 	public boolean checkName(String name)
 	{
 		return prospects.containsKey(name);
+	}
+	
+	public String[] getProspectNames()
+	{
+		String[] names = new String[prospectNames.size()];
+		
+		for (int i=0; i < prospectNames.size(); i++)
+			names[i] = prospectNames.get(i);
+				
+		return names;
+	}
+	
+	public int getPosition(String name)
+	{
+		int[][] ratings = prospects.get(name);
+		
+		return ratings[4][0];
+	}
+	
+	public int getAge(String name)
+	{
+		int[][] ratings = prospects.get(name);
+		
+		return ratings[4][1];
+	}
+	
+	public int getHeight(String name)
+	{
+		int[][] ratings = prospects.get(name);
+		
+		return ratings[4][2];
+	}
+	
+	public int getWeight(String name)
+	{
+		int[][] ratings = prospects.get(name);
+		
+		return ratings[4][4]; // NOTE: We skip DH so rating[4][3] has 0 values.
 	}
 
 	public int[] getPlayerRatings(String name)
@@ -131,7 +180,7 @@ public class DraftClass {
 		int[] scoutingReport = new int[37]; 
 				
 		// (Dunk, Post, Drive, Jumper, Three) -- Separate because it's the true rating
-		for (int i=0; i<16; i++)
+		for (int i=0; i<5; i++)
 		{
 			scoutingReport[i] = ratings[1][i];
 		}
@@ -221,10 +270,10 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomCurrent2(int rtg) // +/- 3 deviation
+	public int randomCurrent2(int rtg) // +/- 2 deviation
 	{
-		int min = rtg - 3;
-		int num = rand.nextInt(7) + min;
+		int min = rtg - 2;
+		int num = rand.nextInt(5) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
@@ -233,10 +282,10 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomPotential2(int min, int max) // +/- 3 deviation
+	public int randomPotential2(int min, int max) // +/- 2 deviation
 	{
-		max = max - 3;
-		int num = rand.nextInt(7) + max;
+		max = max - 2;
+		int num = rand.nextInt(5) + max;
 	
 		if(num < min) num = min;
 		else if (num > 100) num = 100;

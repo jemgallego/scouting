@@ -47,7 +47,7 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
 					
-					num = randomize(num);
+					num = randomizeIntagibles(num);
 					
 					Number n = (Number)cell;
 					n.setValue(num);
@@ -61,7 +61,7 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 					if (j == 22 || j == 23 || j == 24 || j == 25 || j == 26 || j == 34) // FGD, FGI, FGJ, FT, FG3, DRFL
 						num = randomizeFG(num);
 					else
-						num = randomize(num);
+						num = randomizeCurrent(num);
 						
 					Number n = (Number)cell;					
 					n.setValue(num);
@@ -94,21 +94,7 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 		
 	}
 	
-	// random generator for basic sheet.
-	public int randomize(int rtg) // +/- 10 deviation
-	{
-		Random rand = new Random();
-		
-		int min = rtg - 10;
-		int num = rand.nextInt(21) + min;
-		
-		if(num < 0) num = 0;
-		else if (num > 100) num = 100;
-		
-		return num;
-	}
-	
-	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
+	// random generator for basic sheet.	
 	public int randomizeFG(int rtg) // +/- 5 deviation
 	{
 		Random rand = new Random();
@@ -122,7 +108,33 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 		return num;
 	}
 	
+	public int randomizeCurrent(int rtg) // +/- 10 deviation
+	{
+		Random rand = new Random();
+		
+		int min = rtg - 10;
+		int num = rand.nextInt(21) + min;
+		
+		if(num < 0) num = 0;
+		else if (num > 100) num = 100;
+		
+		return num;
+	}
+	
 	public int randomizePotential(int rtg) // +/- 20 deviation
+	{
+		Random rand = new Random();
+		
+		int min = rtg - 20;
+		int num = rand.nextInt(45) + min;
+		
+		if(num < 0) num = 0;
+		else if (num > 100) num = 100;
+		
+		return num;
+	}
+	
+	public int randomizeIntagibles(int rtg) // +/- 20 deviation
 	{
 		Random rand = new Random();
 		

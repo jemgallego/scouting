@@ -20,6 +20,7 @@ import scouting.ScoutingWorker;
 import scouting.WorkoutWorker;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.Short;
 
 // singleton class, final, no sub-classing of main window allowed
@@ -433,7 +434,15 @@ public final class MainWindow implements Runnable {
 	    	// Clear the textarea.
             clearOutput();
 
-            TrackerWorker worker = new TrackerWorker();                
+            TrackerWorker worker = null;
+			try {
+				worker = new TrackerWorker();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+						"ERROR: Something went wring :( \n\n" + 
+						"\n=====  END ERROR MESSAGE  =====\n\n" );
+			}                
 
 		    worker.addPropertyChangeListener(new PropertyChangeListener() {
 			    public void propertyChange(PropertyChangeEvent evt) {

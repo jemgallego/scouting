@@ -86,10 +86,10 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 	}
 	
 	// random number generator
-	public int randomizeFG(int rtg) // +/- 5 deviation
+	public int randomizeFG(int rtg) // +/- 4 deviation
 	{
-		int min = rtg - 5;
-		int num = rand.nextInt(11) + min;
+		int min = rtg - 4;
+		int num = rand.nextInt(9) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
@@ -97,10 +97,10 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 		return num;
 	}
 	
-	public int randomize(int rtg) // +/- 15 deviation
+	public int randomize(int rtg) // +/- 10 deviation
 	{	
-		int min = rtg - 15;
-		int num = rand.nextInt(31) + min;
+		int min = rtg - 10;
+		int num = rand.nextInt(21) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;

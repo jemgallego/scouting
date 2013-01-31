@@ -1,18 +1,18 @@
 Atlanta Hawks 0
 Boston Celtics 0
-Brooklyn Nets 3
+Brooklyn Nets 6
 Charlotte Bobcats 0
 Chicago Bulls 0
 Cleveland Cavaliers 0
 Dallas Mavericks 0
 Denver Nuggets 0
 Detroit Pistons 0
-Golden State Warriors 15
+Golden State Warriors 20
 Houston Rockets 0
 Indiana Pacers 0
 Los Angeles Clippers 0
 Los Angeles Lakers 0
-Memphis Grizzlies 15
+Memphis Grizzlies 20
 Miami Heat 0
 Milwaukee Bucks 0
 Minnesota Timberwolves 0
