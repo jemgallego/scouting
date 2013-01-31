@@ -20,7 +20,8 @@ public class DraftClass {
 		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "; 
 	// use to randomize scouting reports
 	private Random rand = new Random();
-	private ArrayList<String> prospectNames = new ArrayList<String>();
+	private static ArrayList<String> prospectNames = new ArrayList<String>();
+	private static Hashtable<String, String> schoolAttended = new Hashtable<String, String>();
 		
 	public DraftClass() throws IOException
 	{
@@ -61,7 +62,6 @@ public class DraftClass {
 				Cell firstName = sheet.getCell(0,i);
 				Cell lastName = sheet.getCell(1,i);
 				String name = firstName.getContents().trim() + " " + lastName.getContents().trim();
-				prospectNames.add(name);
 	
 				// Row 0 = (CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP)
 				for (int j=0; j < 9; j++) 
@@ -100,6 +100,12 @@ public class DraftClass {
 					rating[4][j] = Integer.parseInt(cell.getContents());
 				}
 				
+				// Get the player name
+				Cell c = sheet.getCell(7,i);
+				String college = c.getContents().trim();
+				
+				prospectNames.add(name);
+				schoolAttended.put(name, college);
 				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
 			}
 			w.close();
@@ -157,6 +163,11 @@ public class DraftClass {
 		return ratings[4][4]; // NOTE: We skip DH so rating[4][3] has 0 values.
 	}
 
+	public String getCollege(String name)
+	{
+		return schoolAttended.get(name);
+	}
+	
 	public int[] getPlayerRatings(String name)
 	{
 		int[][] ratings = prospects.get(name);

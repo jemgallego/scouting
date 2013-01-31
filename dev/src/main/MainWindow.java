@@ -13,6 +13,7 @@ import func.BigBoardWorker;
 import func.DraftCampWorker;
 import func.FinderWorker;
 import func.PointsWorker;
+import func.ProfileWorker;
 import func.TrackerWorker;
 
 import scouting.InterviewWorker;
@@ -95,6 +96,7 @@ public final class MainWindow implements Runnable {
     	fileMenu.add(exit);
     	
     	// build the extras menu
+    	JMenuItem profiles = new JMenuItem ("Draft Profiles");
     	JMenuItem draftCamp = new JMenuItem ("Pre-Draft Camp");
     	JMenuItem finder = new JMenuItem("Prospect Finder");
     	JMenuItem basicSheet = new JMenuItem ("Basic Sheet");
@@ -116,7 +118,10 @@ public final class MainWindow implements Runnable {
     	draftCamp.addActionListener(new DraftCampListener());
     	draftCamp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK));
     	
+    	profiles.addActionListener(new DraftProfilesListener());
+    	
     	extrasMenu.setBackground(menuBarColor);
+    	extrasMenu.add(profiles);
     	extrasMenu.add(draftCamp);
     	extrasMenu.add(finder);
     	extrasMenu.add(basicSheet);
@@ -347,6 +352,28 @@ public final class MainWindow implements Runnable {
             clearOutput();
             
             WorkoutWorker worker = new WorkoutWorker(getDirectory());   
+            
+		    worker.addPropertyChangeListener(new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent evt) {
+				    if("progress".equals(evt.getPropertyName())) {
+			    		MainWindow.GetInstance().setProgressBar((Integer)evt.getNewValue());
+				    }
+			    }
+		    });
+		    
+            worker.execute(); //schedule asynchronous run
+	    }
+    }
+    
+    class DraftProfilesListener implements ActionListener
+    {	
+    	@Override
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the textarea.
+            clearOutput();
+            
+            ProfileWorker worker = new ProfileWorker();   
             
 		    worker.addPropertyChangeListener(new PropertyChangeListener() {
 			    public void propertyChange(PropertyChangeEvent evt) {
