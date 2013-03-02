@@ -1,49 +1,7 @@
 
 BROOKLYN NETS
 
-Anthony Davis
-Dunk: 10
-Post: 41
-Drive: 10
-Jumper: 34
-Threes: 5
-FGD: 84/84
-FGI: 61/61
-FGJ: 32/32
-FT: 69/69
-FG3: 15/15
-SCR: 51/51
-PAS: 40/40
-HDL: 48/55
-ORB: 62/77
-DRB: 63/76
-BLK: 70/90
-STL: 35/46
-DRFL: 9/11
-DEF: 55/70
-DIS: 32/88
-IQ: 60/82
-
-Andre Drummond
-Dunk: 10
-Post: 30
-Drive: 10
-Jumper: 41
-Threes: 9
-FGD: 85/85
-FGI: 57/57
-FGJ: 41/43
-FT: 28/28
-FG3: 0/2
-SCR: 48/87
-PAS: 41/64
-HDL: 26/52
-ORB: 67/93
-DRB: 43/56
-BLK: 51/76
-STL: 48/52
-DRFL: 6/13
-DEF: 62/85
-DIS: 28/73
-IQ: 51/68
-
+ERROR: Name Not Found! 
+ --/--
+ERROR: Name Not Found! 
+ --/--

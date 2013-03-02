@@ -1,49 +1,7 @@
 
 GOLDEN STATE WARRIORS
 
-Anthony Davis
-Dunk: 10
-Post: 41
-Drive: 10
-Jumper: 34
-Threes: 5
-FGD: 84/84
-FGI: 61/61
-FGJ: 32/36
-FT: 68/69
-FG3: 15/15
-SCR: 52/66
-PAS: 43/43
-HDL: 44/44
-ORB: 64/73
-DRB: 57/74
-BLK: 69/98
-STL: 44/59
-DRFL: 9/9
-DEF: 59/71
-DIS: 31/79
-IQ: 54/65
-
-Andre Drummond
-Dunk: 10
-Post: 30
-Drive: 10
-Jumper: 41
-Threes: 9
-FGD: 87/87
-FGI: 56/56
-FGJ: 43/43
-FT: 28/28
-FG3: 2/2
-SCR: 53/77
-PAS: 37/67
-HDL: 27/27
-ORB: 68/100
-DRB: 35/46
-BLK: 62/62
-STL: 49/56
-DRFL: 6/16
-DEF: 52/73
-DIS: 27/67
-IQ: 49/63
-
+ERROR: Name Not Found! 
+ --/--
+ERROR: Name Not Found! 
+ --/--

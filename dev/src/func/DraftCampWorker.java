@@ -71,6 +71,7 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 				}
 			}
 			
+			MainWindow.GetInstance().updateOutput("Draft Camp Simulation -- DONE");
 			w.write();
 			w.close();
 			

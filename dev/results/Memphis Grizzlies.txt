@@ -1,49 +1,7 @@
 
 MEMPHIS GRIZZLIES
 
-Anthony Davis
-Dunk: 10
-Post: 41
-Drive: 10
-Jumper: 34
-Threes: 5
-FGD: 87/87
-FGI: 61/62
-FGJ: 36/36
-FT: 65/69
-FG3: 16/16
-SCR: 40/72
-PAS: 30/40
-HDL: 43/53
-ORB: 66/89
-DRB: 55/96
-BLK: 70/77
-STL: 44/68
-DRFL: 6/11
-DEF: 60/77
-DIS: 39/81
-IQ: 50/84
-
-Andre Drummond
-Dunk: 10
-Post: 30
-Drive: 10
-Jumper: 41
-Threes: 9
-FGD: 86/86
-FGI: 56/57
-FGJ: 41/42
-FT: 28/28
-FG3: 0/3
-SCR: 51/72
-PAS: 30/59
-HDL: 27/38
-ORB: 62/82
-DRB: 41/59
-BLK: 51/63
-STL: 47/47
-DRFL: 8/12
-DEF: 63/87
-DIS: 31/84
-IQ: 47/67
-
+ERROR: Name Not Found! 
+ --/--
+ERROR: Name Not Found! 
+ --/--

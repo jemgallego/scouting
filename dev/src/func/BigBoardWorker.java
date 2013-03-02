@@ -43,6 +43,7 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 			
 			int rating[] = prospects.getScoutingReport(names[i]);
 			int total = 0;
+			int skills = 0;
 			
 			// sum of the preferences & current ratings
 			for(int j = 0; j < 20; j++)
@@ -52,72 +53,56 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 			// sum of the potential ratings
 			for(int j = 20; j < rating.length; j++)
 			{
-				total += rating[j] * 0.6;
+				total += rating[j] * 0.8;
 			}
 			
-			total -= age * 0.1;
-			total += prospects.getHeight(names[i]) * 0.1; 
+			total -= age * 10;
+			total += prospects.getHeight(names[i]) * 0.2; 
 			total += prospects.getWeight(names[i]) * 0.1;
-//			total += (rating[10] * 1.3) + (rating[26] * 1.7); // SCR
-//			total += (rating[20] * 1.2) + (rating[36] * 2.5); // IQ
-//			total += (rating[18] * 1.2) + (rating[34] * 1.7); // DEF
-//			total += (rating[16] * 1.2) + (rating[32] * 1.7); // STL
-//			total += (rating[15] * 1.2) + (rating[31] * 1.7); // BLK
+			total += (rating[15] + rating[16] + rating[32] + rating[36]) * 1.5; // SCR, DEF, IQ
+			
 			
 			switch(pos)
 			{
 				case 1: 
-					total += rating[7]; // FGJ
-					total += rating[9]; // FG3
-					total += rating[26]; // SCR
-					total += rating[27]; // PAS
-					total += rating[28]; // HDL
-					total += rating[34]; // DEF
-					total += rating[36]; // IQ
+					skills += rating[18]; // PAS
+					skills += rating[20]; // HDL
+					skills += rating[28]; // STL
+ 					skills += rating[36]; // IQ
 					break;
 				case 2:
-					total += rating[7]; // FGJ
-					total += rating[9]; // FG3
-					total += rating[26]; // SCR
-					total += rating[26]; // SCR
-					total += rating[28]; // HDL
-					total += rating[32]; // STL
-					total += rating[34]; // DEF
+					skills += rating[20]; // HDL
+					skills += rating[28]; // STL
+					skills += rating[32]; // DEF
+					skills += rating[36]; // IQ
 					break;
 				case 3:
-					total += rating[6]; // FGI
-					total += rating[7]; // FGJ
-					total += rating[26]; // SCR
-					total += rating[29]; // ORB
-					total += rating[30]; // DRB
-					total += rating[32]; // STL
-					total += rating[34]; // DEF
+					skills += rating[24]; // DRB
+					skills += rating[26]; // BLK
+					skills += rating[28]; // STL
+					skills += rating[32]; // DEF
 					break;
 				case 4:
-					total += rating[6]; // FGI
-					total += rating[7]; // FGJ
-					total += rating[26]; // SCR
-					total += rating[30]; // DRB
-					total += rating[31]; // BLK
-					total += rating[32]; // STL
-					total += rating[34]; // DEF
+					skills += rating[22]; // ORB
+					skills += rating[24]; // DRB
+					skills += rating[26]; // BLK
+					skills += rating[32]; // DEF
 					break;
 				case 5:
-					total += rating[6]; // FGI
-					total += rating[7]; // FGJ
-					total += rating[26]; // SCR
-					total += rating[30]; // DRB
-					total += rating[31]; // BLK
-					total += rating[32]; // STL
-					total += rating[34]; // DEF
+					skills += rating[22]; // ORB
+					skills += rating[24]; // DRB
+					skills += rating[26]; // BLK
+					skills += rating[32]; // DEF
 					break;
 				default:
 					break;
 			}
 			
+			total += skills * 3;
+			
 			// factor in the tracker
 			int num = tracker.getTimesScouted(names[i]);
-			total += num * 10;
+			total += num * 20;
 			
 			m.put(names[i], total);
 		}	
@@ -204,9 +189,10 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 					break;
 			}
 			
+			int age = prospects.getAge(e.getKey()) + 1; // add 1 to show correct age.
 			
 			String str1 = "[tr][td]" + i + "[/td][td]" + str + "[/td][td]" + e.getKey() + "[/td][td]" + 
-				prospects.getAge(e.getKey()) + "[/td][td]" + position + "[/td][td]" + height + "[/td][td]" + 
+				age + "[/td][td]" + position + "[/td][td]" + height + "[/td][td]" + 
 				prospects.getWeight(e.getKey())  + "[/td][/tr]";
     		output = output.concat(str1); 
 		

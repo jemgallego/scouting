@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import func.BasicSheetWorker;
+import func.MediaScoutingWorker;
 import func.BigBoardWorker;
 import func.DraftCampWorker;
 import func.FinderWorker;
@@ -99,15 +99,15 @@ public final class MainWindow implements Runnable {
     	JMenuItem profiles = new JMenuItem ("Draft Profiles");
     	JMenuItem draftCamp = new JMenuItem ("Pre-Draft Camp");
     	JMenuItem finder = new JMenuItem("Prospect Finder");
-    	JMenuItem basicSheet = new JMenuItem ("Basic Sheet");
+    	JMenuItem mediaScouting = new JMenuItem ("Media Scouting");
     	JMenuItem points = new JMenuItem ("Points");
     	JMenuItem tracker = new JMenuItem ("Tracker");
     	
     	finder.addActionListener(new FinderButtonListener());
     	finder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.META_DOWN_MASK));
     	
-    	basicSheet.addActionListener(new BasicSheetButtonListener());
-    	basicSheet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.META_DOWN_MASK));
+    	mediaScouting.addActionListener(new MediaScoutingButtonListener());
+    	mediaScouting.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.META_DOWN_MASK));
     	
     	points.addActionListener(new PointsButtonListener());
     	points.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.META_DOWN_MASK));
@@ -124,7 +124,7 @@ public final class MainWindow implements Runnable {
     	extrasMenu.add(profiles);
     	extrasMenu.add(draftCamp);
     	extrasMenu.add(finder);
-    	extrasMenu.add(basicSheet);
+    	extrasMenu.add(mediaScouting);
     	extrasMenu.add(points);
     	extrasMenu.add(tracker);
     	
@@ -392,7 +392,7 @@ public final class MainWindow implements Runnable {
     	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-	    	// Clear the textarea.
+	    	// Clear the text area.
             clearOutput();
             
             DraftCampWorker worker = new DraftCampWorker();   
@@ -409,15 +409,15 @@ public final class MainWindow implements Runnable {
 	    }
     }
     
-    class BasicSheetButtonListener implements ActionListener
+    class MediaScoutingButtonListener implements ActionListener
     {	
     	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-	    	// Clear the textarea.
+	    	// Clear the text area.
             clearOutput();
 
-            BasicSheetWorker worker = new BasicSheetWorker();                
+            MediaScoutingWorker worker = new MediaScoutingWorker();                
 
 		    worker.addPropertyChangeListener(new PropertyChangeListener() {
 			    public void propertyChange(PropertyChangeEvent evt) {
@@ -458,7 +458,7 @@ public final class MainWindow implements Runnable {
     	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-	    	// Clear the textarea.
+	    	// Clear the text area.
             clearOutput();
 
             TrackerWorker worker = null;
@@ -467,7 +467,7 @@ public final class MainWindow implements Runnable {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 				MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-						"ERROR: Something went wring :( \n\n" + 
+						"ERROR: Something went wrong :( \n\n" + 
 						"\n=====  END ERROR MESSAGE  =====\n\n" );
 			}                
 
@@ -488,7 +488,7 @@ public final class MainWindow implements Runnable {
     	@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-	    	// Clear the textarea.
+	    	// Clear the text area.
             clearOutput();
 
             PointsWorker worker = new PointsWorker();                

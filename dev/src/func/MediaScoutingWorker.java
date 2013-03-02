@@ -1,10 +1,7 @@
 package func;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import javax.swing.SwingWorker;
 
@@ -16,9 +13,9 @@ import jxl.write.WritableWorkbook;
 
 import main.MainWindow;
 
-public class BasicSheetWorker extends SwingWorker<Object, Object> {
+public class MediaScoutingWorker extends SwingWorker<Object, Object> {
 	
-	public BasicSheetWorker()
+	public MediaScoutingWorker()
 	{
 		setProgress(0);
 	}
@@ -26,28 +23,28 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 	@Override
 	public Object doInBackground() throws IOException
 	{        
-		generateBasicSheet();
+		generateMediaScouting();
                 
 		return null;
 	}
 	
-	private void generateBasicSheet() throws IOException
+	private void generateMediaScouting() throws IOException
 	{		
 		try 
 		{
 			Workbook template = Workbook.getWorkbook(new File("files/prospects.xls"));
-			WritableWorkbook w = Workbook.createWorkbook(new File("basicSheet.xls"), template);
+			WritableWorkbook w = Workbook.createWorkbook(new File("mediaScouting.xls"), template);
 			
 			WritableSheet sheet = w.getSheet(0);
 			
 			for(int i = 1; i < sheet.getRows(); i++)
 			{
-				for(int j = 8; j < 17; j++)
+				for(int j = 8; j < 17; j++) 
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
 					
-					num = randomizeIntagibles(num);
+					num = randomizeIntangibles(num);
 					
 					Number n = (Number)cell;
 					n.setValue(num);
@@ -72,14 +69,17 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
 					
-					num = randomizePotential(num);
+					if (j == 38 || j == 39 || j == 40 || j == 41 || j == 42 || j == 50) // FGD, FGI, FGJ, FT, FG3, DRFL
+						num = randomizeFG(num);
+					else
+						num = randomizePotential(num);
 					
 					Number n = (Number)cell;
 					n.setValue(num);
 				}
 			}
 			
-			MainWindow.GetInstance().updateOutput("Generate Basic Spreadsheet -- DONE");
+			MainWindow.GetInstance().updateOutput("Generate Media Scouting -- DONE");
 			w.write();
 			w.close();
 			
@@ -95,12 +95,12 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 	}
 	
 	// random generator for basic sheet.	
-	public int randomizeFG(int rtg) // +/- 5 deviation
+	public int randomizeFG(int rtg) // +/- 4 deviation
 	{
 		Random rand = new Random();
 		
-		int min = rtg - 5;
-		int num = rand.nextInt(11) + min;
+		int min = rtg - 4;
+		int num = rand.nextInt(9) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
@@ -126,7 +126,7 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 		Random rand = new Random();
 		
 		int min = rtg - 20;
-		int num = rand.nextInt(45) + min;
+		int num = rand.nextInt(41) + min;
 		
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
@@ -134,12 +134,12 @@ public class BasicSheetWorker extends SwingWorker<Object, Object> {
 		return num;
 	}
 	
-	public int randomizeIntagibles(int rtg) // +/- 20 deviation
+	public int randomizeIntangibles(int rtg) // +/- 25 deviation
 	{
 		Random rand = new Random();
 		
-		int min = rtg - 20;
-		int num = rand.nextInt(45) + min;
+		int min = rtg - 25;
+		int num = rand.nextInt(51) + min;
 		
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;
