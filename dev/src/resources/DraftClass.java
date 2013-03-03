@@ -9,10 +9,11 @@ import jxl.Workbook;
 
 import main.MainWindow;
 
+// DraftClass handles the conversion of the excel file as well as preparing 
+// the Scouting, Interview, and Workout reports.
+
 public class DraftClass {
 	
-	// key = name, value = ratings (int[][])
-	private static Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
 	// the excel file being loaded should have this column order
 	private static final String ORDER = "NAME SURNAME POS AGE HEIGHT DH WEIGHT COLLEGE " 
 		+ "CON GRE LOY PFW PT PER DUR WE POP Dunk Post Drive Jumper Three "
@@ -20,13 +21,13 @@ public class DraftClass {
 		+ "FGD FGI FGJ FT FG3 SCR PAS HDL ORB DRB BLK STL DRFL DEF DIS IQ "; 
 	// use to randomize scouting reports
 	private Random rand = new Random();
-	private static ArrayList<String> prospectNames = new ArrayList<String>();
-	private static Hashtable<String, String> schoolAttended = new Hashtable<String, String>();
-		
-	public DraftClass() throws IOException
-	{
-		generateDraftClass("files/prospects.xls");
-	}
+	
+	// key = name, value = ratings (int[][])
+	private static final Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
+	private static final Hashtable<String, String> schoolAttended = new Hashtable<String, String>();
+	private static final ArrayList<String> prospectNames = new ArrayList<String>();
+	
+	public DraftClass()	{}
 	
 	public void generateDraftClass(String filename) throws IOException
 	{
@@ -92,7 +93,7 @@ public class DraftClass {
 				}
 				
 				// Row 4 = (POS, AGE, DH, WEIGHT)
-				// NOTE: We skip DH so rating[4][3] has 0 values.
+				// NOTE: We skip DH so rating[4][3] has a value of 0.
 				for(int j=0; j < 5; j++)
 				{
 					if(j == 3) continue;
@@ -100,13 +101,13 @@ public class DraftClass {
 					rating[4][j] = Integer.parseInt(cell.getContents());
 				}
 				
-				// Get the player name
+				// Get the college name
 				Cell c = sheet.getCell(7,i);
 				String college = c.getContents().trim();
 				
 				prospectNames.add(name);
 				schoolAttended.put(name, college);
-				prospects.put(name, rating); // put the name & rating pairing into the Hashtable
+				prospects.put(name, rating); 
 			}
 			w.close();
 		} 
@@ -125,14 +126,9 @@ public class DraftClass {
 		return prospects.containsKey(name);
 	}
 	
-	public String[] getProspectNames()
+	public ArrayList<String> getProspectNames()
 	{
-		String[] names = new String[prospectNames.size()];
-		
-		for (int i=0; i < prospectNames.size(); i++)
-			names[i] = prospectNames.get(i);
-				
-		return names;
+		return prospectNames;
 	}
 	
 	public int getPosition(String name)
@@ -160,7 +156,7 @@ public class DraftClass {
 	{
 		int[][] ratings = prospects.get(name);
 		
-		return ratings[4][4]; // NOTE: We skip DH so rating[4][3] has 0 values.
+		return ratings[4][4]; // NOTE: We skip DH so rating[4][3] has a value of 0.
 	}
 
 	public String getCollege(String name)
@@ -168,6 +164,7 @@ public class DraftClass {
 		return schoolAttended.get(name);
 	}
 	
+	// Used by the Player Finder functionality
 	public int[] getPlayerRatings(String name)
 	{
 		int[][] ratings = prospects.get(name);

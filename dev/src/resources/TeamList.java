@@ -4,16 +4,10 @@ import java.util.ArrayList;
 
 public class TeamList {
 	
-	private ArrayList<String> teams;
+	private ArrayList<String> teams = new ArrayList<String>();
 	
 	public TeamList()
-	{
-		teams = new ArrayList<String>();
-		addTeams();
-	}
-	
-	private void addTeams()
-	{
+	{	
 		teams.add("Atlanta Hawks");
 		teams.add("Boston Celtics");
 		teams.add("Brooklyn Nets");
@@ -54,4 +48,8 @@ public class TeamList {
 			return false;
 	}
 	
+	public ArrayList<String> getTeams()
+	{
+		return teams;
+	}
 }

@@ -16,6 +16,7 @@ import func.PointsWorker;
 import func.ProfileWorker;
 import func.TrackerWorker;
 
+import resources.DraftClass;
 import scouting.InterviewWorker;
 import scouting.ScoutingWorker;
 import scouting.WorkoutWorker;
@@ -116,8 +117,6 @@ public final class MainWindow implements Runnable {
     	tracker.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.META_DOWN_MASK));
     	
     	draftCamp.addActionListener(new DraftCampListener());
-    	draftCamp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK));
-    	
     	profiles.addActionListener(new DraftProfilesListener());
     	
     	extrasMenu.setBackground(menuBarColor);
@@ -132,8 +131,8 @@ public final class MainWindow implements Runnable {
     	JMenuItem FAQ = new JMenuItem("FAQ");
     	JMenuItem manual = new JMenuItem("Scouting Manual");
     	
-    	// FAQ.addActionListener(new FAQListener());
-    	// manual.addActionListner(new manualListener());   	
+    	FAQ.addActionListener(new FAQListener());
+    	manual.addActionListener(new manualListener());   	
     	
     	helpMenu.setBackground(menuBarColor);
     	helpMenu.add(FAQ);
@@ -149,6 +148,16 @@ public final class MainWindow implements Runnable {
 	
 	public void run()
 	{
+		try { // Generate draft class from excel sheet. Only need to do it once. 
+			DraftClass prospects = new DraftClass();
+			prospects.generateDraftClass("files/prospects.xls");
+		} catch (IOException e) {
+			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+					"ERROR: Something went wrong :( \n\n" + 
+					"\n=====  END ERROR MESSAGE  =====\n\n" );
+			e.printStackTrace();
+		} 
+		
         // set the icon image and layout manager of the rootPane
         // f.setIconImage(Program.windowIcon);
         f.setLayout(new BorderLayout());
@@ -159,7 +168,6 @@ public final class MainWindow implements Runnable {
         Dimension maxDim = new Dimension(Short.MAX_VALUE, 10);
 
         // configure component sizes
-     
         // border adjustments
       
         mainBox.setBorder(new EmptyBorder(new Insets(0,10,10,10)));
@@ -462,7 +470,8 @@ public final class MainWindow implements Runnable {
             clearOutput();
 
             TrackerWorker worker = null;
-			try {
+			
+            try {
 				worker = new TrackerWorker();
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -485,13 +494,22 @@ public final class MainWindow implements Runnable {
     
     class PointsButtonListener implements ActionListener
     {	
-    	@Override
+		@Override
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	// Clear the text area.
             clearOutput();
 
-            PointsWorker worker = new PointsWorker();                
+            PointsWorker worker = null;
+            
+            try {
+            	worker = new PointsWorker();
+            } catch (IOException e1) {
+				e1.printStackTrace();
+				MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+						"ERROR: Something went wrong :( \n\n" + 
+						"\n=====  END ERROR MESSAGE  =====\n\n" );
+			}  
 
 		    worker.addPropertyChangeListener(new PropertyChangeListener() {
 			    public void propertyChange(PropertyChangeEvent evt) {
@@ -504,6 +522,31 @@ public final class MainWindow implements Runnable {
             worker.execute(); //schedule asynchronous run
 	    }
     }
+    
+    class FAQListener implements ActionListener
+    {	
+    	@Override
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the text area.
+            clearOutput();
+
+            MainWindow.GetInstance().updateOutput("FAQ is not available at this time.");
+	    }
+    }
+    
+    class manualListener implements ActionListener
+    {	
+    	@Override
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	// Clear the text area.
+            clearOutput();
+
+            MainWindow.GetInstance().updateOutput("Scouting Manual is not available at this time.");
+	    }
+    }
+    
     
     //**************CLASS FUNCTIONS**************//
     

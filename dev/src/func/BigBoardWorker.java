@@ -13,7 +13,7 @@ import resources.Height;
 import main.MainWindow;
 
 public class BigBoardWorker extends SwingWorker<Object, Object> {
-	private Hashtable<String, Integer> playerTable = new Hashtable<String,Integer>();
+	private Hashtable<String, Integer> previousRanking = new Hashtable<String,Integer>(); // name, rank
 	
 	public BigBoardWorker()
 	{
@@ -24,24 +24,23 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 	public Object doInBackground() throws IOException
 	{        
 		generateBigBoard();
-                
+		
 		return null;
 	}
 	
 	public void generateBigBoard() throws IOException
 	{	
-		Map<String, Integer> m = new HashMap<String,Integer>();
+		Map<String, Integer> m = new HashMap<String,Integer>(); // name, rating total
 
 		TrackerWorker tracker = new TrackerWorker(); 		
 		DraftClass prospects = new DraftClass();
-		String[] names = prospects.getProspectNames();
-		
-		for(int i=0; i< names.length; i++ )
-		{
-			int pos = prospects.getPosition(names[i]);
-			int age = prospects.getAge(names[i]);
+		ArrayList<String> names = prospects.getProspectNames();
 			
-			int rating[] = prospects.getScoutingReport(names[i]);
+		for(int i=0; i< names.size(); i++ )
+		{
+			int pos = prospects.getPosition(names.get(i));
+			int age = prospects.getAge(names.get(i));
+			int rating[] = prospects.getScoutingReport(names.get(i));
 			int total = 0;
 			int skills = 0;
 			
@@ -56,12 +55,13 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 				total += rating[j] * 0.8;
 			}
 			
-			total -= age * 10;
-			total += prospects.getHeight(names[i]) * 0.2; 
-			total += prospects.getWeight(names[i]) * 0.1;
+			// factor in age, height, weight, and general skills
+			total -= age * 10; 
+			total += prospects.getHeight(names.get(i)) * 0.2; 
+			total += prospects.getWeight(names.get(i)) * 0.1;
 			total += (rating[15] + rating[16] + rating[32] + rating[36]) * 1.5; // SCR, DEF, IQ
 			
-			
+			// factor in positional skills. Broke it down to several lines for easy editing.
 			switch(pos)
 			{
 				case 1: 
@@ -71,9 +71,9 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
  					skills += rating[36]; // IQ
 					break;
 				case 2:
+					skills += rating[16]; // SCR
 					skills += rating[20]; // HDL
 					skills += rating[28]; // STL
-					skills += rating[32]; // DEF
 					skills += rating[36]; // IQ
 					break;
 				case 3:
@@ -101,10 +101,10 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 			total += skills * 3;
 			
 			// factor in the tracker
-			int num = tracker.getTimesScouted(names[i]);
+			int num = tracker.getTimesScouted(names.get(i));
 			total += num * 20;
 			
-			m.put(names[i], total);
+			m.put(names.get(i), total);
 		}	
 		
 		// Put the players in order
@@ -128,7 +128,7 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 			{
 				StringTokenizer st = new StringTokenizer(player," ");
 				String name = st.nextToken() + " " + st.nextToken();
-				playerTable.put(name, Integer.parseInt(st.nextToken()));
+				previousRanking.put(name, Integer.parseInt(st.nextToken()));
 			}	
 			bigboardReader.close();
 		}
@@ -143,7 +143,8 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 			rank++;
 		}
 		bigboard.close();
-					
+		
+		// Generate output - ready to copy and paste to forum.
 		MainWindow.GetInstance().updateOutput("[size=200][b]Big Board[/b][/size]\n\n");
 		MainWindow.GetInstance().updateOutput("[center][table][tr][td][b]Ranking[/b][/td][td][b]Change[/b][/td]" +
 			"[td][b]Player[/b][/td][td][b]Age[/b][/td][td][b]Position[/b][/td][td][b]Height[/b][/td][td][b]Weight[/b][/td][/tr]");
@@ -154,10 +155,10 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 		for(Map.Entry<String, Integer> e : list)
 		{
 			int previous;
-			if (playerTable.get(e.getKey()) == null) 
+			if (previousRanking.get(e.getKey()) == null) 
 				previous = i;
 			else 
-				previous = playerTable.get(e.getKey());
+				previous = previousRanking.get(e.getKey());
 			
 			int change = previous - i;
 			String str = "";

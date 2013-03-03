@@ -1,6 +1,9 @@
 package func;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,10 +18,13 @@ import javax.swing.SwingWorker;
 import main.MainWindow;
 
 public class TrackerWorker extends SwingWorker<Object, Object>{
-	private static Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>();
+	private static Hashtable<String, Integer> scoutedPlayers = new Hashtable<String,Integer>(); // name, # of times scouted
 	
 	public TrackerWorker() throws IOException
 	{
+		File f = new File("files/tracker.txt");
+		if (!f.exists()) createFile(f);
+		
 		BufferedReader reader = new BufferedReader(new FileReader("files/tracker.txt"));
 		String player;
 		
@@ -30,7 +36,6 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 			scoutedPlayers.put(name, Integer.parseInt(st.nextToken()));
 		}	
 		reader.close();
-		
 	}
 	
 	@Override
@@ -43,8 +48,50 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
         
 		return null;
 	}
+	
+	public void createFile(File f)
+	{
+		// if tracker.txt does not exist, create a blank one.
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+			writer.close();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
+					"ERROR: Creating tracker.txt file FAILED!\n\n" +
+					"\n=====  END ERROR MESSAGE  =====\n\n" );
+		}
+	}
+	
+	public void addPoint(String name)
+	{
+		// check if player has been scouted before
+		if(scoutedPlayers.containsKey(name))
+		{
+			int num = scoutedPlayers.get(name) + 1;
+			scoutedPlayers.put(name,num);
+		}  
+		else
+		{
+			scoutedPlayers.put(name,1);
+		}
+	}
+	
+	public int getTimesScouted(String name)
+	{
+		int num = 0; 
+			
+		if(scoutedPlayers.get(name) == null)
+			num = 0;
+		else
+			num = scoutedPlayers.get(name);
 		
-	public void displayTracker() throws IOException
+		return num;
+	}
+		
+	public void displayTracker()
 	{
 		// convert table to a list and sort
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(scoutedPlayers.entrySet());
@@ -67,15 +114,25 @@ public class TrackerWorker extends SwingWorker<Object, Object>{
 		}
 	}
 	
-	public int getTimesScouted(String name)
+	public void saveTracker() throws IOException 
 	{
-		int num = 0; 
-			
-		if(scoutedPlayers.get(name) == null)
-			num = 0;
-		else
-			num = scoutedPlayers.get(name);
+		BufferedWriter writer = new BufferedWriter(new FileWriter("files/tracker.txt"));
 		
-		return num;
+		// Update Tracker File 
+		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(scoutedPlayers.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare (Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
+				String i1 = e1.getKey();
+				String i2 = e2.getKey();
+				return i1.compareTo(i2);
+			}
+		});
+		
+		for(Map.Entry<String, Integer> e : list)
+		{
+			writer.append(e.getKey() + " " + e.getValue() + "\n");
+		}
+		writer.close();
 	}
+
 }

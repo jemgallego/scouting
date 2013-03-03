@@ -1,6 +1,7 @@
 package func;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.SwingWorker;
 
@@ -27,7 +28,7 @@ public class ProfileWorker extends SwingWorker<Object, Object>{
 	public void generateProfiles() throws IOException
 	{
 		DraftClass prospects = new DraftClass();
-		String[] names = prospects.getProspectNames();
+		ArrayList<String> names = prospects.getProspectNames();
 		
 		String PG = "[color=#FF0000][size=150][b]POINT GUARDS[/b][/size][/color]\n\n";
 		String SG = "[color=#FF0000][size=150][b]SHOOTING GUARDS[/b][/size][/color]\n\n";
@@ -35,17 +36,17 @@ public class ProfileWorker extends SwingWorker<Object, Object>{
 		String PF = "[color=#FF0000][size=150][b]POWER FORWARDS[/b][/size][/color]\n\n";
 		String C = "[color=#FF0000][size=150][b]CENTERS[/b][/size][/color]\n\n";
 		
-		for(int i=0; i < names.length; i++)
+		for(int i=0; i < names.size(); i++)
 		{
-			int pos = prospects.getPosition(names[i]);		
-			int age = prospects.getAge(names[i]);
-			int weight = prospects.getWeight(names[i]);
+			int pos = prospects.getPosition(names.get(i));		
+			int age = prospects.getAge(names.get(i));
+			int weight = prospects.getWeight(names.get(i));
 		
 			Height h = new Height();
-			String height = h.getDisplayHeight(prospects.getHeight(names[i]));
-			String college = prospects.getCollege(names[i]);
+			String height = h.getDisplayHeight(prospects.getHeight(names.get(i)));
+			String college = prospects.getCollege(names.get(i));
 			
-			String str = "[size=150][b]" + names[i] + "[/b][/size]\n\n" + 
+			String str = "[size=150][b]" + names.get(i) + "[/b][/size]\n\n" + 
 			"[img]http://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Jordan_Michael_nba.jpg[/img]\n\n" +
 			"[b]Age:[/b] " + age + "\n[b]Height:[/b] " + height + "\n[b]Weight:[/b] " + weight + "\n[b]College:[/b] " + college + "\n\n\n";
 			
