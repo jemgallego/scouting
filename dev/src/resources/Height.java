@@ -1,7 +1,6 @@
 package resources;
 import java.util.Hashtable;
 
-
 public class Height {
 	
 	private Hashtable<Integer, String> displayHeight = new Hashtable<Integer, String>();

@@ -39,7 +39,7 @@ public class MediaScoutingWorker extends SwingWorker<Object, Object> {
 			
 			for(int i = 1; i < sheet.getRows(); i++)
 			{
-				for(int j = 8; j < 17; j++) 
+				for(int j = 8; j < 17; j++) // Intangibles
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
@@ -50,7 +50,7 @@ public class MediaScoutingWorker extends SwingWorker<Object, Object> {
 					n.setValue(num);
 				}
 				
-				for(int j = 22; j < 38; j++)
+				for(int j = 22; j < 38; j++) // Current Ratings
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
@@ -64,7 +64,7 @@ public class MediaScoutingWorker extends SwingWorker<Object, Object> {
 					n.setValue(num);
 				}
 				
-				for(int j = 38; j < sheet.getColumns(); j++)
+				for(int j = 38; j < sheet.getColumns(); j++) // Potential Ratings
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
@@ -88,7 +88,7 @@ public class MediaScoutingWorker extends SwingWorker<Object, Object> {
 		{
 			e.printStackTrace();
 			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-					"UNKNOWN ERROR: Generating excel file failed!\n\n" +
+					"UNKNOWN ERROR: Generating mediaScouting.xls file failed!\n\n" +
 					"\n=====  END ERROR MESSAGE  =====\n\n" );
 		} 
 		

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+// Used to practice stuff. Not part of the program.
 
 public class tester {
 	public static void main(String args[]) throws IOException

@@ -18,13 +18,14 @@ import main.MainWindow;
 
 public class InterviewWorker extends SwingWorker<Object, Object> {
 	
-	private static DraftClass rookies;
+	private DraftClass prospects;
 	private enum InterviewResult {Dunk, Post, Drive, Jumper, Three, CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP, IQ}; 
 	private File directory;
 	private BufferedWriter interviews;
 	
 	public InterviewWorker(File f)
 	{
+		prospects = new DraftClass(); // Generate ratings table for rookie class
 		directory = f;
 		setProgress(0);
 	}
@@ -33,16 +34,12 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 	public Object doInBackground() throws IOException
 	{        
 		conductInterviews();
-        
-        //set the status text in the main window back to idle
-		MainWindow.GetInstance().SetStatusIdle();
-        
+                
 		return null;
 	}
 
 	private void conductInterviews() throws IOException
 	{
-		rookies = new DraftClass(); // Generate ratings table for rookie class
 		File files[] = directory.listFiles(); // Get all the files in the directory.
 		
 		for(File f: files)
@@ -82,13 +79,13 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 	public void getInterviewResults(String name) throws IOException
 	{	
 		// Error check: Name
-		if (!rookies.checkName(name))
+		if (!prospects.checkName(name))
 		{
 			interviews.append("ERROR: Name Not Found! \n --/--\n");
 			return;
 		}
 		
-		int[] interview = rookies.getInterview(name);
+		int[] interview = prospects.getInterview(name);
 		int i=0;
 		
 		interviews.append(name + "\n");

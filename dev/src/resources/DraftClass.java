@@ -23,9 +23,9 @@ public class DraftClass {
 	private Random rand = new Random();
 	
 	// key = name, value = ratings (int[][])
-	private static final Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
-	private static final Hashtable<String, String> schoolAttended = new Hashtable<String, String>();
-	private static final ArrayList<String> prospectNames = new ArrayList<String>();
+	private static Hashtable<String, int[][]> prospects = new Hashtable<String, int[][]>();
+	private static Hashtable<String, String> schoolAttended = new Hashtable<String, String>();
+	private static ArrayList<String> prospectNames = new ArrayList<String>();
 	
 	public DraftClass()	{}
 	

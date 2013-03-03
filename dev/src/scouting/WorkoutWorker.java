@@ -15,7 +15,7 @@ import main.MainWindow;
 
 public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
-	private static DraftClass prospects;
+	private DraftClass prospects;
 	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 		
 	private File directory;
@@ -23,6 +23,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
 	public WorkoutWorker(File f)
 	{
+		prospects = new DraftClass(); // Generate ratings table for rookie class
 		directory = f;
 		setProgress(0);
 	}
@@ -40,7 +41,6 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
 	private void conductWorkouts() throws IOException
 	{
-		prospects = new DraftClass(); // Generate ratings table for rookie class
 		File files[] = directory.listFiles(); // Get all the files in the directory.
 		
 		for(File f: files)
@@ -79,25 +79,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	}
 	
 	public void getWorkoutResults(String name) throws IOException
-	{
-//		int i=0;
-//		
-//		// Error check: Name
-//		if (!prospects.checkName(name))
-//		{
-//			workouts.append("ERROR: Name Not Found! \n --/--\n");
-//			return;
-//		}
-//	
-//		int[] workout = prospects.getWorkout(name);
-//		workouts.append(name + "\n");
-//	
-//		for (Rating category : Rating.values())
-//		{
-//			workouts.append(category + ": " + workout[i] + "\n");
-//			i++;
-//		}
-		
+	{		
 		// Error check: Name
 		if (!prospects.checkName(name))
 		{

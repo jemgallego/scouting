@@ -42,14 +42,14 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 			
 			for(int i = 1; i < sheet.getRows(); i++)
 			{
-				for(int j = 8; j < 22; j++)
+				for(int j = 8; j < 22; j++) // clear intangibles and preferences
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					Number n = (Number)cell;
 					n.setValue(0);
 				}
 				
-				for(int j = 22; j < 38; j++)
+				for(int j = 22; j < 38; j++) // current ratings
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					int num = Integer.parseInt(cell.getContents());
@@ -63,7 +63,7 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 					n.setValue(num);
 				}
 				
-				for(int j = 38; j < sheet.getColumns(); j++)
+				for(int j = 38; j < sheet.getColumns(); j++) // clear potential values
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);
 					Number n = (Number)cell;
@@ -80,13 +80,12 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 		{
 			e.printStackTrace();
 			MainWindow.GetInstance().updateOutput("\n===== START ERROR MESSAGE =====\n\n" +
-					"UNKNOWN ERROR: Generating excel file failed!\n\n" +
+					"UNKNOWN ERROR: Generating preDraftCamp.xls file failed!\n\n" +
 					"\n=====  END ERROR MESSAGE  =====\n\n" );
 		} 
-		
 	}
 	
-	// random number generator
+	// Simulate camp by randomizing ratings
 	public int randomizeFG(int rtg) // +/- 4 deviation
 	{
 		int min = rtg - 4;
