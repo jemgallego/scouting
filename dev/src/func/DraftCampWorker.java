@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.swing.SwingWorker;
 
+import jxl.Cell;
 import jxl.Workbook;
 import jxl.write.Number;
 import jxl.write.WritableCell;
@@ -41,7 +42,7 @@ public class DraftCampWorker extends SwingWorker<Object, Object> {
 			WritableSheet sheet = w.getSheet(0);
 			
 			for(int i = 1; i < sheet.getRows(); i++)
-			{
+			{				
 				for(int j = 8; j < 22; j++) // clear intangibles and preferences
 				{
 					WritableCell cell = sheet.getWritableCell(j,i);

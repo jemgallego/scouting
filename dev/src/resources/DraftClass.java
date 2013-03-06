@@ -63,7 +63,7 @@ public class DraftClass {
 				Cell firstName = sheet.getCell(0,i);
 				Cell lastName = sheet.getCell(1,i);
 				String name = firstName.getContents().trim() + " " + lastName.getContents().trim();
-	
+				
 				// Row 0 = (CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP)
 				for (int j=0; j < 9; j++) 
 				{
