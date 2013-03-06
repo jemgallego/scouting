@@ -190,7 +190,7 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 					break;
 			}
 			
-			int age = prospects.getAge(e.getKey()) + 1; // add 1 to show correct age.
+			int age = prospects.getAge(e.getKey());
 			
 			String str1 = "[tr][td]" + i + "[/td][td]" + str + "[/td][td]" + e.getKey() + "[/td][td]" + 
 				age + "[/td][td]" + position + "[/td][td]" + height + "[/td][td]" + 

@@ -5,7 +5,6 @@ Version 1.2
 
 PENDING
 --
-+ double check Scouting output.
 + Add an individual Tracker for each team.
 + Team specific trackers.
 + Automatically add results to archive file.
@@ -25,6 +24,8 @@ RElEASE NOTES
 + Added keyboard shortcuts to the menu bar.
 + Interview IQ Potential = true rating
 + Increased INTERVIEW deviations to +/-15
-+ Added BigBoard Feature
++ Added Big Board Feature
 + Changed Basic Sheet to Media Scouting
 + Added Profile Generator
++ The program will no longer crash if points.txt and tracker.txt is missing. Instead, it will generate the blank files.
++ Added Pre-Draft Camp feature.

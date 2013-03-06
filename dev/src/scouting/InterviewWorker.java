@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.SwingWorker;
 
 import resources.DraftClass;
+import resources.TeamList;
 
 
 
@@ -19,7 +20,7 @@ import main.MainWindow;
 public class InterviewWorker extends SwingWorker<Object, Object> {
 	
 	private DraftClass prospects;
-	private enum InterviewResult {Dunk, Post, Drive, Jumper, Three, CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP, IQ}; 
+	private enum InterviewResult {IQ, CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP}; 
 	private File directory;
 	private BufferedWriter interviews;
 	
@@ -47,29 +48,40 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 			String filename = f.getName();
 			
 			if (filename.endsWith(".txt"))
-			{	
+			{					
 				BufferedReader br = new BufferedReader(new FileReader(f));
+				TeamList teamList = new TeamList(); 
 				
-				// Start reading the interview file
-				String str; 
 				String teamName;
+				String playerName;
+				String str; 
 				int count = 0;
-				
+			
 				teamName = br.readLine(); // read Team Name
-
+				teamName = teamName.trim();	
+				
+				// skip if file doesn't start with correct team name
+				if (!teamList.match(teamName))
+					continue; 
+				
 				// Create a text file with the results for the respective team.
 				interviews = new BufferedWriter(new FileWriter("results/" + teamName + ".txt"));
-				interviews.append("\n" + teamName.toUpperCase() + "\n\n");
-				
-				while ((str = br.readLine()) != null)
-				{						
-					getInterviewResults(str);
-					interviews.append("\n");
+				interviews.append("\n" + teamName.toUpperCase() + "\n\n");	
 					
-					count++; // keep track of # of players interviewed
-				}
+				while ((str = br.readLine()) != null)
+				{
+					if(str.isEmpty())
+						continue;	
+									
+					playerName = str.trim();
+										
+					getInterviewResults(playerName); // generate Interview report for this player						
+					count++; // keep track of # of players interviewed.
+				}	
 				br.close();
 				interviews.close();
+				
+				// update the main window as soon as we finish processing the file.
 				MainWindow.GetInstance().updateOutput(filename + " -- " + count + "\n");
 			}
 		}
@@ -85,16 +97,17 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 			return;
 		}
 		
+		interviews.append(name + "\n");
+		
 		int[] interview = prospects.getInterview(name);
 		int i=0;
-		
-		interviews.append(name + "\n");
 		
 		for (InterviewResult category : InterviewResult.values())
 		{
 			interviews.append(category + ": " + interview[i] + "\n");
 			i++;
 		}
+		interviews.append("\n");
 	}
 }
 

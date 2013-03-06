@@ -47,7 +47,7 @@ public class ProfileWorker extends SwingWorker<Object, Object>{
 			String college = prospects.getCollege(names.get(i));
 			
 			String str = "[size=150][b]" + names.get(i) + "[/b][/size]\n\n" + 
-			"[img]http://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Jordan_Michael_nba.jpg[/img]\n\n" +
+			"[img]http://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/player_photo.jpg[/img]\n\n" +
 			"[b]Age:[/b] " + age + "\n[b]Height:[/b] " + height + "\n[b]Weight:[/b] " + weight + "\n[b]College:[/b] " + college + "\n\n\n";
 			
 			switch(pos)

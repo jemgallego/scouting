@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.SwingWorker;
 
 import resources.DraftClass;
+import resources.TeamList;
 
 
 import main.MainWindow;
@@ -32,10 +33,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	public Object doInBackground() throws IOException
 	{        
 		conductWorkouts();
-        
-        //set the status text in the main window back to idle
-		MainWindow.GetInstance().SetStatusIdle();
-        
+             
 		return null;
 	}
 	
@@ -50,13 +48,20 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 			if (filename.endsWith(".txt"))
 			{	
 				BufferedReader br = new BufferedReader(new FileReader(f));
+				TeamList teamList = new TeamList();
 				
 				// Start reading the work out file
-				String str; 
 				String teamName;
+				String playerName;
+				String str; 
 				int count = 0;
 		
 				teamName = br.readLine(); // read Team Name
+				teamName = teamName.trim();
+				
+				// skip if file doesn't start with correct team name
+				if (!teamList.match(teamName))
+					continue; 
 
 				// Create a text file with the results for the respective team.
 				workouts = new BufferedWriter(new FileWriter("results/" + teamName + ".txt"));
@@ -65,13 +70,17 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 				
 				while ((str = br.readLine()) != null)
 				{
-					getWorkoutResults(str);	
-					workouts.append("\n");
+					if(str.isEmpty())
+						continue;
 					
+					playerName = str.trim();
+					
+					getWorkoutResults(playerName); // generate Workout report for this player.	
 					count++; // keep track of # of players worked out.
 				}	
 				br.close();
 				workouts.close();
+				
 				MainWindow.GetInstance().updateOutput(filename + " -- " + count + "\n");
 			}
 		}
