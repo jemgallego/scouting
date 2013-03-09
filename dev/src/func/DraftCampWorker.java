@@ -6,7 +6,6 @@ import java.util.Random;
 
 import javax.swing.SwingWorker;
 
-import jxl.Cell;
 import jxl.Workbook;
 import jxl.write.Number;
 import jxl.write.WritableCell;
