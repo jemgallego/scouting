@@ -1,0 +1,30 @@
+Atlanta Hawks 0
+Boston Celtics 0
+Brooklyn Nets 70
+Charlotte Bobcats 0
+Chicago Bulls 0
+Cleveland Cavaliers 0
+Dallas Mavericks 0
+Denver Nuggets 0
+Detroit Pistons 0
+Golden State Warriors 70
+Houston Rockets 0
+Indiana Pacers 0
+Los Angeles Clippers 0
+Los Angeles Lakers 0
+Memphis Grizzlies 70
+Miami Heat 0
+Milwaukee Bucks 0
+Minnesota Timberwolves 0
+New Orleans Hornets 0
+New York Knicks 0
+Oklahoma City Thunder 0
+Orlando Magic 0
+Philadelphia 76ers 0
+Phoenix Suns 0
+Portland Trailblazers 0
+Sacramento Kings 0
+San Antonio Spurs 0
+Toronto Raptors 0
+Utah Jazz 0
+Washington Wizards 0

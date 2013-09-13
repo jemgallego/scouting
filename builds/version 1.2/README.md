@@ -9,8 +9,6 @@ POSSIBLE ADDITIONS FOR THE NEXT VERSION
 + Team specific trackers.
 + Automatically add results to archive file.
 + look to generate results folder
-+ Rework Big Board
-
 
 KNOWN BUGS
 --
@@ -25,19 +23,11 @@ SCOUTING MANUAL
 
 
 RElEASE NOTES
-
-Version 1.3
---
-+ Decreased CURRENT deviations from +/- 7 to +/- 5
-+
-
-
-Version 1.2
 --
 + Switched file input from .txt files to .xls files
 + Added keyboard shortcuts to the menu bar.
 + Interview IQ Potential = true rating
-+ Increased INTERVIEW deviations from +/- 10 to +/-15
++ Increased INTERVIEW deviations to +/-15
 + Added Big Board Feature
 + Changed Basic Sheet to Media Scouting
 + Added Profile Generator

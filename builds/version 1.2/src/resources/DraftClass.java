@@ -182,7 +182,7 @@ public class DraftClass {
 	}
 	
 	// Scouting Report
-	public int[] getScouting(String name)
+	public int[] getScoutingReport(String name)
 	{
 		int[][] ratings = prospects.get(name);
 		int[] scoutingReport = new int[37]; 
@@ -254,10 +254,10 @@ public class DraftClass {
 	}
 	
 	// random number generator
-	public int randomCurrent(int rtg) // +/- 5 deviation
+	public int randomCurrent(int rtg) // +/- 7 deviation
 	{
-		int min = rtg - 5;
-		int num = rand.nextInt(11) + min;
+		int min = rtg - 7;
+		int num = rand.nextInt(15) + min;
 	
 		if(num < 0) num = 0;
 		else if (num > 100) num = 100;

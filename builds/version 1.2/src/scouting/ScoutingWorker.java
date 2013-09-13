@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.swing.SwingWorker;
 
 import func.PointsWorker;
-import func.TotalScoreRating;
 import func.TrackerWorker;
 
 import resources.DraftClass;
@@ -37,6 +36,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	public Object doInBackground() throws IOException
 	{        
 		conductScouting();
+        
 		return null;
 	}
 	
@@ -46,12 +46,11 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		TeamList teamList = new TeamList(); 
 		PointsWorker points = new PointsWorker();
 		TrackerWorker tracker = new TrackerWorker();
-		TotalScoreRating scoreRatings = new TotalScoreRating();
 										
 		for(File f: files)
 		{
 			String filename = f.getName();
-		
+			
 			if (filename.endsWith(".txt"))
 			{	
 				BufferedReader br = new BufferedReader(new FileReader(f));
@@ -84,21 +83,8 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 					
 					if (prospects.checkName(playerName))
 						tracker.addPoint(playerName); // update the player's point counter
-					else
-					{
-						reports.append("ERROR: Name Not Found! \n --/--\n\n");
-						continue;
-					}
 					
-					int[] rating = prospects.getScouting(playerName); // get scouting deviation for this player.
-					
-					appendScoutingReport(playerName, rating); // add scouting report for this player to the file.
-					
-					int pos = prospects.getPosition(playerName);
-					int tsr = scoreRatings.calculateTSR(playerName, rating, pos);
-					
-					scoreRatings.updateTSR(playerName, tsr);
-					
+					generateReport(playerName); // generate scouting report for this player						
 					count++; // keep track of total scouting points used.
 				}	
 				br.close();
@@ -111,16 +97,22 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 		
 		tracker.saveTracker();
 		points.savePoints();
-		scoreRatings.saveRatings();
 		
 		MainWindow.GetInstance().updateOutput("\nSCOUTING -- DONE\n");
 	}
 	
-	private void appendScoutingReport(String name, int[] rating) throws IOException
+	public void generateReport(String name) throws IOException
 	{
+		// Error check: Name
+		if (!prospects.checkName(name))
+		{
+			reports.append("ERROR: Name Not Found! \n --/--\n");
+			return;
+		}
 		
 		reports.append(name + "\n");
 		
+		int[] rating = prospects.getScoutingReport(name);
 		int i = 0;
 		
 		for (ShotSelection category : ShotSelection.values())
