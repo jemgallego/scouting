@@ -1,6 +1,6 @@
 Mike's Super Awesome Scouting System
 
-Version 1.2
+Version 1.3
 ========
 
 POSSIBLE ADDITIONS FOR THE NEXT VERSION
@@ -9,7 +9,6 @@ POSSIBLE ADDITIONS FOR THE NEXT VERSION
 + Team specific trackers.
 + Automatically add results to archive file.
 + look to generate results folder
-+ Rework Big Board
 
 
 KNOWN BUGS
@@ -29,6 +28,8 @@ RElEASE NOTES
 Version 1.3
 --
 + Decreased CURRENT deviations from +/- 7 to +/- 5
++ Reworked Big Board to tie in with the Scouting Reports.
++ Introduced TSR (TotalScoreRating) that determine player rankings for Big Board.
 +
 
 

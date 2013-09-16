@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import resources.DraftClass;
-import resources.TeamList;
 
 import main.MainWindow;
 
