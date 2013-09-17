@@ -80,12 +80,12 @@ public class TotalScoreRating {
 		// sum of the preferences & current ratings
 		for(int j = 0; j < 20; j++)
 		{
-			tsr += rating[j] * 0.2;
+			tsr += rating[j] * 1.2;
 		}
 		// sum of the potential ratings
 		for(int j = 20; j < rating.length; j++)
 		{
-			tsr += rating[j] * 0.8;
+			tsr += rating[j] * 1.8;
 		}
 		
 		// factor in general skills
@@ -128,22 +128,25 @@ public class TotalScoreRating {
 				break;
 		}
 		
-		tsr += skills * 3;
+		tsr += skills;
 		
 		return tsr;
 	}
 	
 	public void updateTSR(String playerName, int score) {
 		// check if player has been scouted before
-		if(scoreRatings.containsKey(playerName))
-		{
-			int newScore = (scoreRatings.get(playerName) + score) / 2;
-			scoreRatings.put(playerName, newScore);
-		}  
-		else
+		if(scoreRatings.get(playerName) == 0) // not scouted yet.
 		{
 			scoreRatings.put(playerName,score);
 		}
+		else 
+		{
+			// Old score has 80% weight while new score has 20% weight
+			int newScore = (int) ((scoreRatings.get(playerName) * 0.8) + (score *0.2));
+//			int newScore = (scoreRatings.get(playerName) + score) / 2;
+			scoreRatings.put(playerName, newScore);
+			System.out.println("hello");
+		}  
 	}
 	
 	public void saveRatings() throws IOException

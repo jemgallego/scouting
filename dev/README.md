@@ -30,7 +30,6 @@ Version 1.3
 + Decreased CURRENT deviations from +/- 7 to +/- 5
 + Reworked Big Board to tie in with the Scouting Reports.
 + Introduced TSR (TotalScoreRating) that determine player rankings for Big Board.
-+
 
 
 Version 1.2
