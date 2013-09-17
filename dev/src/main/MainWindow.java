@@ -46,7 +46,7 @@ public final class MainWindow implements Runnable {
     private File directory;
     
 	// window components
-    JFrame f = new JFrame("Mike's Scouting v1.2");
+    JFrame f = new JFrame("Mike's Scouting v1.3");
  
     // menu components
     private final JMenuBar menuBar = new JMenuBar();
@@ -60,7 +60,6 @@ public final class MainWindow implements Runnable {
     private final JButton interviewButton = new JButton("Interview");
     private final JButton workoutButton = new JButton("Workout");
     private final JButton bigBoardButton = new JButton("Big Board");
-    private final JButton trackerButton = new JButton("Tracker");
     private final JButton pointsButton = new JButton("Points");
 	private static JTextArea output = new JTextArea(20,20); // Scanner output
     private final JScrollPane scrollPane = new JScrollPane(output);
@@ -199,7 +198,7 @@ public final class MainWindow implements Runnable {
         buttonBox.add(workoutButton);
         buttonBox.add(dividerLabel);
         buttonBox.add(bigBoardButton);
-        buttonBox.add(trackerButton);
+        buttonBox.add(pointsButton);
         
         // statusBox.add(statusLabel);
         // statusBox.add(new Box.Filler(minDim, prefDim, maxDim));
@@ -221,7 +220,6 @@ public final class MainWindow implements Runnable {
 		interviewButton.addActionListener(new InterviewButtonListener());
 		workoutButton.addActionListener(new WorkoutButtonListener());
 		bigBoardButton.addActionListener(new BigBoardButtonListener());
-		trackerButton.addActionListener(new TrackerButtonListener());
 		pointsButton.addActionListener(new PointsButtonListener());
 		
 		//finish setting up the window

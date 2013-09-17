@@ -92,7 +92,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 		// Error check: Name
 		if (!prospects.checkName(name))
 		{
-			workouts.append("ERROR: Name Not Found! \n --/--\n");
+			workouts.append("ERROR: Name Not Found! \n --/--\n\n");
 			return;
 		}
 		
