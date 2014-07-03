@@ -77,52 +77,72 @@ public class TotalScoreRating {
 		int tsr = 0;
 		int skills = 0;
 		
-		// sum of the preferences & current ratings
-		for(int j = 0; j < 20; j++)
-		{
-			tsr += rating[j] * 1.2;
-		}
-		// sum of the potential ratings
-		for(int j = 20; j < rating.length; j++)
-		{
-			tsr += rating[j] * 1.8;
+		// sum of the preferences & ratings
+		for(int j = 0; j < rating.length; j++)
+		{   
+			tsr += rating[j];
 		}
 		
-		// factor in general skills
-		tsr += (rating[15] + rating[16] + rating[32] + rating[36]) * 1.5; // SCR, DEF, IQ
+		// FGI, FGJ and FG3 multiplier
+		tsr += multiplier(rating[7] + rating[8]); // FGI
+		tsr += multiplier(rating[8] + rating[9]); // FGJ
+		tsr += multiplier(rating[13] + rating[14]); // FG3
+				
+		// sum of the current ratings
+		for(int j = 15; j < rating.length; j++)
+		{   
+			tsr += multiplier(rating[j]);
+			j++;
+		}
+				
+		// sum of the potential ratings
+		for(int j = 16; j < rating.length; j++)
+		{
+			tsr += multiplier(rating[j]);
+			j++;
+		}
+		
+		// factor in general skills.
+		tsr += (multiplier(rating[15]) + multiplier(rating[16])); // SCR
+		tsr += (multiplier(rating[31]) + multiplier(rating[32])); // DEF
 		
 		// factor in positional skills. Broke it down to several lines for easy editing.
 		switch(pos)
 		{
 			case 1: 
-				skills += rating[18]; // PAS
-				skills += rating[20]; // HDL
-				skills += rating[28]; // STL
-				skills += rating[36]; // IQ
+				skills += multiplier(rating[17]) + multiplier(rating[18]); // PAS
+				skills += multiplier(rating[19]) + multiplier(rating[20]); // HDL
+				skills += multiplier(rating[27]) + multiplier(rating[28]); // STL
+				skills += multiplier(rating[31]) + multiplier(rating[32]); // DEF
+				skills += multiplier(rating[35]) + multiplier(rating[36]); // IQ
 				break;
 			case 2:
-				skills += rating[16]; // SCR
-				skills += rating[20]; // HDL
-				skills += rating[28]; // STL
-				skills += rating[36]; // IQ
+				skills += multiplier(rating[15]) + multiplier(rating[16]); // SCR
+				skills += multiplier(rating[19]) + multiplier(rating[20]); // HDL
+				skills += multiplier(rating[27]) + multiplier(rating[28]); // STL
+				skills += multiplier(rating[31]) + multiplier(rating[32]); // DEF
+				skills += multiplier(rating[35]) + multiplier(rating[36]); // IQ
 				break;
 			case 3:
-				skills += rating[24]; // DRB
-				skills += rating[26]; // BLK
-				skills += rating[28]; // STL
-				skills += rating[32]; // DEF
+				skills += multiplier(rating[15]) + multiplier(rating[16]); // SCR
+				skills += multiplier(rating[23]) + multiplier(rating[24]); // DRB
+				skills += multiplier(rating[31]) + multiplier(rating[32]); // DEF
+				skills += multiplier(rating[33]) + multiplier(rating[34]); // DIS
+				skills += multiplier(rating[35]) + multiplier(rating[36]); // IQ
 				break;
 			case 4:
-				skills += rating[22]; // ORB
-				skills += rating[24]; // DRB
-				skills += rating[26]; // BLK
-				skills += rating[32]; // DEF
+				skills += multiplier(rating[15]) + multiplier(rating[16]); // SCR
+				skills += multiplier(rating[21]) + multiplier(rating[22]); // ORB
+				skills += multiplier(rating[23]) + multiplier(rating[24]); // DRB
+				skills += multiplier(rating[25]) + multiplier(rating[26]); // BLK
+				skills += multiplier(rating[31]) + multiplier(rating[32]); // DEF
 				break;
 			case 5:
-				skills += rating[22]; // ORB
-				skills += rating[24]; // DRB
-				skills += rating[26]; // BLK
-				skills += rating[32]; // DEF
+				skills += multiplier(rating[15]) + multiplier(rating[16]); // SCR
+				skills += multiplier(rating[21]) + multiplier(rating[22]); // ORB
+				skills += multiplier(rating[23]) + multiplier(rating[24]); // DRB
+				skills += multiplier(rating[25]) + multiplier(rating[26]); // BLK
+				skills += multiplier(rating[31]) + multiplier(rating[32]); // DEF
 				break;
 			default:
 				break;
@@ -142,10 +162,9 @@ public class TotalScoreRating {
 		else 
 		{
 			// Old score has 80% weight while new score has 20% weight
-			int newScore = (int) ((scoreRatings.get(playerName) * 0.8) + (score *0.2));
+			int newScore = (int) ((scoreRatings.get(playerName) * 0.8) + (score * 0.2));
 //			int newScore = (scoreRatings.get(playerName) + score) / 2;
 			scoreRatings.put(playerName, newScore);
-			System.out.println("hello");
 		}  
 	}
 	
@@ -167,6 +186,26 @@ public class TotalScoreRating {
 			writer.append(e.getKey() + " " + e.getValue() + "\n");
 		}
 		writer.close();
+	}
+	
+	private int multiplier(int rating)
+	{
+		int adjRating;
+		
+		if (rating < 49)
+			adjRating = rating;
+		else if (rating < 69)
+			adjRating = (int) (rating * 1.1);
+		else if (rating < 79)
+			adjRating = (int) (rating * 1.2);
+		else if (rating < 89)
+			adjRating = (int) (rating * 1.5);
+		else if (rating < 95)
+			adjRating = (int) (rating * 1.7);
+		else 
+			adjRating = (int) (rating * 2.5);
+		
+		return adjRating;
 	}
 
 }

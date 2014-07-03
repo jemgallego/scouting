@@ -59,10 +59,16 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 			
 				teamName = br.readLine(); // read Team Name
 				teamName = teamName.trim();	
+				teamName = teamName.replaceAll("\\s++", " ");
+				
+				teamName = teamList.getTeamName(teamName);
 				
 				// skip if file doesn't start with correct team name
-				if (!teamList.match(teamName))
+				if (teamName == null)
+				{
+					MainWindow.GetInstance().updateOutput(filename + " -- ERROR: Team Name\n");
 					continue; 
+				}
 				
 				// Create a text file with the results for the respective team.
 				interviews = new BufferedWriter(new FileWriter("results/" + teamName + ".txt"));
@@ -74,6 +80,7 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 						continue;	
 									
 					playerName = str.trim();
+					playerName = playerName.replaceAll("\\s++", " ");
 										
 					getInterviewResults(playerName); // generate Interview report for this player						
 					count++; // keep track of # of players interviewed.

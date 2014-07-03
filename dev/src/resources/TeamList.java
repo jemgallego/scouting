@@ -11,7 +11,7 @@ public class TeamList {
 		teams.add("Atlanta Hawks");
 		teams.add("Boston Celtics");
 		teams.add("Brooklyn Nets");
-		teams.add("Charlotte Bobcats");
+		teams.add("Charlotte Hornets");
 		teams.add("Chicago Bulls");
 		teams.add("Cleveland Cavaliers");
 		teams.add("Dallas Mavericks");
@@ -26,7 +26,7 @@ public class TeamList {
 		teams.add("Miami Heat");
 		teams.add("Milwaukee Bucks");
 		teams.add("Minnesota Timberwolves");
-		teams.add("New Orleans Hornets");
+		teams.add("New Orleans Pelicans");
 		teams.add("New York Knicks");
 		teams.add("Oklahoma City Thunder");
 		teams.add("Orlando Magic");
@@ -39,13 +39,15 @@ public class TeamList {
 		teams.add("Utah Jazz");
 		teams.add("Washington Wizards");
 	}
-	
-	public boolean match(String str)
+		
+	public String getTeamName(String teamName)
 	{
-		if (teams.contains(str))
-			return true;
-		else 
-			return false;
+		for(String str:teams)
+		{
+			if(str.equalsIgnoreCase(teamName))
+				return str;
+		}
+		return null;
 	}
 	
 	public ArrayList<String> getTeams()

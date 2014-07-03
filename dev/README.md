@@ -1,14 +1,23 @@
 Mike's Super Awesome Scouting System
 
-Version 1.3
+Version 1.4
 ========
+
+THINGS TO WORK ON
+--
++ Tweak multiplier
++ Change Weights of TSR, maybe for later seasons?
++ Tie in Media Scouting?
++ Add height, weight, age, factors
++ Add Interview factors.
+
 
 POSSIBLE ADDITIONS FOR THE NEXT VERSION
 --
 + Add an individual Tracker for each team.
 + Team specific trackers.
 + Automatically add results to archive file.
-+ look to generate results folder
++ Look to generate results folder
 
 
 KNOWN BUGS
@@ -23,7 +32,21 @@ SCOUTING MANUAL
 + Must have correct team name, also case sensitive.
 
 
-RElEASE NOTES
+RELEASE NOTES
+
+Version 1.4
+--
++ Changed Charlotte Bobcats to Charlotte Hornets (TeamList.java)
++ Team Names are no longer case sensitive when performing a match.
++ Improved team name and player name matching. 
+
+
+Version 1.3.2
+--
++ Changed New Orleans Hornets to New Orleans Pelicans (TeamList.java)
++ Changed output of Draft Profile Generator
++ Changed TSR calculations
+
 
 Version 1.3
 --

@@ -12,6 +12,8 @@ import main.MainWindow;
 
 public class ProfileWorker extends SwingWorker<Object, Object>{
 	
+	private String[] displayPos = new String[] {"N/A", "PG", "SG", "SF", "PF", "C"};
+	
 	public ProfileWorker()
 	{
 		setProgress(0);
@@ -46,9 +48,10 @@ public class ProfileWorker extends SwingWorker<Object, Object>{
 			String height = h.getDisplayHeight(prospects.getHeight(names.get(i)));
 			String college = prospects.getCollege(names.get(i));
 			
-			String str = "[size=150][b]" + names.get(i) + "[/b][/size]\n\n" + 
-			"[img]http://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/player_photo.jpg[/img]\n\n" +
-			"[b]Age:[/b] " + age + "\n[b]Height:[/b] " + height + "\n[b]Weight:[/b] " + weight + "\n[b]College:[/b] " + college + "\n\n\n";
+			String str = "[b][size=150]Prospect Preview[/size]\n" + names.get(i) + ", " + displayPos[pos] + ", " + college + "[/b]\n\n" + 
+			"[img][/img]\n\n" + "[center][table][tr][td]AGE[/td][td]HEIGHT[/td][td]WEIGHT[/td][td]COLLEGE[/td][/tr][tr][td]" +
+			age + "[/td][td]" + height + "[/td][td]" + weight + "[/td][td]" + college + "[/td][/tr][/table][/center]" +
+			"\n\n[b]Strengths:[/b] \n\n[b]Weaknesses:[/b] \n\n";
 			
 			switch(pos)
 			{

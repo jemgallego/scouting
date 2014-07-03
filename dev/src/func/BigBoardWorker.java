@@ -75,7 +75,8 @@ public class BigBoardWorker extends SwingWorker<Object, Object> {
 		updateBigBoard(tsrRank); // overwrite bigboard.txt with the new rankings.
 		
 		// Generate output - ready to copy and paste to forum.
-		MainWindow.GetInstance().updateOutput("[size=200][b]Big Board[/b][/size]\n\n");
+		MainWindow.GetInstance().updateOutput("[size=200][b]Big Board[/b][/size]\n");
+		MainWindow.GetInstance().updateOutput("[b]presented by Draft Gurus[/b]\n\n");
 		MainWindow.GetInstance().updateOutput("[center][table][tr][td][b]Ranking[/b][/td][td][b]Change[/b][/td]" +
 			"[td][b]Player[/b][/td][td][b]Age[/b][/td][td][b]Position[/b][/td][td][b]Height[/b][/td][td][b]Weight[/b][/td][/tr]");
 		

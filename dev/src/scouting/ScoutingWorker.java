@@ -62,11 +62,17 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 				int count = 0;
 			
 				teamName = br.readLine(); // read Team Name
-				teamName = teamName.trim();	
+				teamName = teamName.trim();
+				teamName = teamName.replaceAll("\\s++", " ");
+				
+				teamName = teamList.getTeamName(teamName);
 				
 				// skip if file doesn't start with correct team name
-				if (!teamList.match(teamName))
+				if (teamName == null)
+				{
+					MainWindow.GetInstance().updateOutput(filename + " -- ERROR: Team Name\n");
 					continue; 
+				}
 				
 				// update the team's point counter
 				points.addPoint(teamName);
@@ -81,6 +87,7 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 						continue;	
 									
 					playerName = str.trim();
+					playerName = playerName.replaceAll("\\s++", " ");
 					
 					if (prospects.checkName(playerName))
 						tracker.addPoint(playerName); // update the player's point counter
