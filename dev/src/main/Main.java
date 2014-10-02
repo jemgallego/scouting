@@ -1,6 +1,7 @@
 // Mike's Super Awesome Scouting System
 // Copyright 2012 Jem Gallego
-// Version: 1.3.2
+// Version: 1.3.3
+// Last revision: Oct 1, 2014
 
 package main;
 

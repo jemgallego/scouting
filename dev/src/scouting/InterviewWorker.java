@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.swing.SwingWorker;
 
+import func.TotalScoreRating;
+
 import resources.DraftClass;
 import resources.TeamList;
 
@@ -19,14 +21,14 @@ import main.MainWindow;
 
 public class InterviewWorker extends SwingWorker<Object, Object> {
 	
-	private DraftClass prospects;
+	private DraftClass draftclass;
 	private enum InterviewResult {IQ, CON, GRE, LOY, PFW, PT, PER, DUR, WE, POP}; 
 	private File directory;
 	private BufferedWriter interviews;
 	
 	public InterviewWorker(File f)
 	{
-		prospects = new DraftClass(); // Generate ratings table for rookie class
+		draftclass = new DraftClass(); // Generate ratings table for rookie class
 		directory = f;
 		setProgress(0);
 	}
@@ -42,6 +44,8 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 	private void conductInterviews() throws IOException
 	{
 		File files[] = directory.listFiles(); // Get all the files in the directory.
+		TeamList teamList = new TeamList();
+		TotalScoreRating scoreRatings = new TotalScoreRating();
 		
 		for(File f: files)
 		{
@@ -50,7 +54,6 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 			if (filename.endsWith(".txt"))
 			{					
 				BufferedReader br = new BufferedReader(new FileReader(f));
-				TeamList teamList = new TeamList(); 
 				
 				String teamName;
 				String playerName;
@@ -70,7 +73,7 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 					continue; 
 				}
 				
-				// Create a text file with the results for the respective team.
+				// Create an interview report for the respective team.
 				interviews = new BufferedWriter(new FileWriter("results/" + teamName + ".txt"));
 				interviews.append("\n" + teamName.toUpperCase() + "\n\n");	
 					
@@ -81,8 +84,20 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 									
 					playerName = str.trim();
 					playerName = playerName.replaceAll("\\s++", " ");
-										
-					getInterviewResults(playerName); // generate Interview report for this player						
+					
+					// Error check: Name
+					if (!draftclass.checkName(playerName))
+					{
+						interviews.append("ERROR: Name Not Found! \n --/--\n\n");
+						continue;
+					}
+					
+					int[] interview = draftclass.getInterview(playerName); 
+					appendInterviewReport(playerName, interview); // add interview report for this player
+					
+					int tsi = scoreRatings.calculateTSI(playerName, interview);
+					scoreRatings.addTSI(playerName, tsi);
+					
 					count++; // keep track of # of players interviewed.
 				}	
 				br.close();
@@ -92,21 +107,16 @@ public class InterviewWorker extends SwingWorker<Object, Object> {
 				MainWindow.GetInstance().updateOutput(filename + " -- " + count + "\n");
 			}
 		}
+		
+		scoreRatings.saveRatings();
+		
 		MainWindow.GetInstance().updateOutput("\nINTERVIEWS -- DONE\n");
 	}
 	
-	public void getInterviewResults(String name) throws IOException
+	public void appendInterviewReport(String name, int[] interview) throws IOException
 	{	
-		// Error check: Name
-		if (!prospects.checkName(name))
-		{
-			interviews.append("ERROR: Name Not Found! \n --/--\n");
-			return;
-		}
-		
 		interviews.append(name + "\n");
 		
-		int[] interview = prospects.getInterview(name);
 		int i=0;
 		
 		for (InterviewResult category : InterviewResult.values())

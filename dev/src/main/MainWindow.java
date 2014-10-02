@@ -46,7 +46,7 @@ public final class MainWindow implements Runnable {
     private File directory;
     
 	// window components
-    JFrame f = new JFrame("Mike's Scouting v1.3.2");
+    JFrame f = new JFrame("NLL Scouting v1.3.3");
  
     // menu components
     private final JMenuBar menuBar = new JMenuBar();

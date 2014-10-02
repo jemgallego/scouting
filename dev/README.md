@@ -1,16 +1,16 @@
 Mike's Super Awesome Scouting System
 
-Version 1.4
+Version 1.3.3
 ========
 
 THINGS TO WORK ON
 --
-+ Tweak multiplier
++ Revise tsi formula
++ Adjust ratings so that FGI is of equal value to SCR.
++ change prospects to draftclass
 + Change Weights of TSR, maybe for later seasons?
 + Tie in Media Scouting?
-+ Add height, weight, age, factors
-+ Add Interview factors.
-
++ Add height, weight factors
 
 POSSIBLE ADDITIONS FOR THE NEXT VERSION
 --
@@ -18,7 +18,6 @@ POSSIBLE ADDITIONS FOR THE NEXT VERSION
 + Team specific trackers.
 + Automatically add results to archive file.
 + Look to generate results folder
-
 
 KNOWN BUGS
 --
@@ -34,11 +33,12 @@ SCOUTING MANUAL
 
 RELEASE NOTES
 
-Version 1.4
+Version 1.3.3
 --
 + Changed Charlotte Bobcats to Charlotte Hornets (TeamList.java)
 + Team Names are no longer case sensitive when performing a match.
-+ Improved team name and player name matching. 
++ Extra space between names no longer generate an error.
++ Added age factor to TSR.
 
 
 Version 1.3.2

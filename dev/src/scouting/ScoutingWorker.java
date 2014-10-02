@@ -22,13 +22,13 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	private enum ShotSelection {Dunk, Post, Drive, Jumper, Threes};
 	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 	
-	private DraftClass prospects;
+	private DraftClass draftclass;
 	private File directory;
 	private BufferedWriter reports;
 
 	public ScoutingWorker(File f)
 	{
-		prospects = new DraftClass(); // Generate ratings table for draft class	
+		draftclass = new DraftClass(); // Generate ratings table for draft class	
 		directory = f;
 		setProgress(0);
 	}
@@ -89,19 +89,18 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 					playerName = str.trim();
 					playerName = playerName.replaceAll("\\s++", " ");
 					
-					if (prospects.checkName(playerName))
-						tracker.addPoint(playerName); // update the player's point counter
+					if (draftclass.checkName(playerName))
+						tracker.addPoint(playerName); // update the player's tracker count
 					else
 					{
 						reports.append("ERROR: Name Not Found! \n --/--\n\n");
 						continue;
 					}
 					
-					int[] rating = prospects.getScouting(playerName); // get scouting deviation for this player.
+					int[] rating = draftclass.getScouting(playerName); // get scouting deviation for this player.
+					appendScoutingReport(playerName, rating); // add scouting report for this player.
 					
-					appendScoutingReport(playerName, rating); // add scouting report for this player to the file.
-					
-					int pos = prospects.getPosition(playerName);
+					int pos = draftclass.getPosition(playerName);
 					int tsr = scoreRatings.calculateTSR(playerName, rating, pos);
 					
 					scoreRatings.updateTSR(playerName, tsr);
@@ -125,7 +124,6 @@ public class ScoutingWorker extends SwingWorker<Object, Object> {
 	
 	private void appendScoutingReport(String name, int[] rating) throws IOException
 	{
-		
 		reports.append(name + "\n");
 		
 		int i = 0;

@@ -16,7 +16,7 @@ import main.MainWindow;
 
 public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
-	private DraftClass prospects;
+	private DraftClass draftclass;
 	private enum Rating {FGD, FGI, FGJ, FT, FG3, SCR, PAS, HDL, ORB, DRB, BLK, STL, DRFL, DEF, DIS, IQ};
 		
 	private File directory;
@@ -24,7 +24,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	
 	public WorkoutWorker(File f)
 	{
-		prospects = new DraftClass(); // Generate ratings table for rookie class
+		draftclass = new DraftClass(); // Generate ratings table for rookie class
 		directory = f;
 		setProgress(0);
 	}
@@ -40,6 +40,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 	private void conductWorkouts() throws IOException
 	{
 		File files[] = directory.listFiles(); // Get all the files in the directory.
+		TeamList teamList = new TeamList();
 		
 		for(File f: files)
 		{
@@ -48,9 +49,7 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 			if (filename.endsWith(".txt"))
 			{	
 				BufferedReader br = new BufferedReader(new FileReader(f));
-				TeamList teamList = new TeamList();
-				
-				// Start reading the work out file
+
 				String teamName;
 				String playerName;
 				String str; 
@@ -82,7 +81,16 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 					playerName = str.trim();
 					playerName = playerName.replaceAll("\\s++", " ");
 					
-					getWorkoutResults(playerName); // generate Workout report for this player.	
+					// Error check: Name
+					if (!draftclass.checkName(playerName))
+					{
+						workouts.append("ERROR: Name Not Found! \n --/--\n\n");
+						continue;
+					}
+					
+					int[] rating = draftclass.getWorkout(playerName);
+					appendWorkoutReport(playerName, rating); // generate workout report for this player.
+					
 					count++; // keep track of # of players worked out.
 				}	
 				br.close();
@@ -91,21 +99,15 @@ public class WorkoutWorker extends SwingWorker<Object, Object> {
 				MainWindow.GetInstance().updateOutput(filename + " -- " + count + "\n");
 			}
 		}
+		
 		MainWindow.GetInstance().updateOutput("\nWORKOUT -- DONE\n");
 	}
 	
-	public void getWorkoutResults(String name) throws IOException
+	public void appendWorkoutReport(String name, int[] rating) throws IOException
 	{		
-		// Error check: Name
-		if (!prospects.checkName(name))
-		{
-			workouts.append("ERROR: Name Not Found! \n --/--\n\n");
-			return;
-		}
 		
 		workouts.append(name + "\n");
 		
-		int[] rating = prospects.getWorkout(name);
 		int i = 0;
 		
 		for (Rating category : Rating.values())

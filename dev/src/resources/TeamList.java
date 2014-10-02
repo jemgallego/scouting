@@ -38,6 +38,7 @@ public class TeamList {
 		teams.add("Toronto Raptors");
 		teams.add("Utah Jazz");
 		teams.add("Washington Wizards");
+		teams.add("Draft Insider");
 	}
 		
 	public String getTeamName(String teamName)

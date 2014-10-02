@@ -254,7 +254,7 @@ public class DraftClass {
 	}
 	
 	// random number generator
-	public int randomCurrent(int rtg) // +/- 5 deviation
+	private int randomCurrent(int rtg) // +/- 5 deviation
 	{
 		int min = rtg - 5;
 		int num = rand.nextInt(11) + min;
@@ -265,7 +265,7 @@ public class DraftClass {
 		return num;
 	}
 	 
-	public int randomPotential(int min, int max) // +/- 15 deviation
+	private int randomPotential(int min, int max) // +/- 15 deviation
 	{	
 		max = max - 15;
 		int num = rand.nextInt(31) + max;
@@ -278,7 +278,7 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomCurrent2(int rtg) // +/- 2 deviation
+	private int randomCurrent2(int rtg) // +/- 2 deviation
 	{
 		int min = rtg - 2;
 		int num = rand.nextInt(5) + min;
@@ -290,7 +290,7 @@ public class DraftClass {
 	}
 	
 	// random number generator for FGD, FGI, FGJ, FT, FG3, DRFL
-	public int randomPotential2(int min, int max) // +/- 2 deviation
+	private int randomPotential2(int min, int max) // +/- 2 deviation
 	{
 		max = max - 2;
 		int num = rand.nextInt(5) + max;
@@ -301,7 +301,7 @@ public class DraftClass {
 		return num;
 	}	
 	
-	public int randomInterview(int rtg) // +/- 15 deviation
+	private int randomInterview(int rtg) // +/- 15 deviation
 	{
 		int min = rtg - 15;
 		int num = rand.nextInt(31) + min;

@@ -74,8 +74,6 @@ public class TotalScoreRating {
 			
 	public int calculateTSR(String name, int[] rating, int pos)
 	{
-		DraftClass draftClass = new DraftClass();
-		
 		int tsr = 0;
 		int skills = 0;
 		
@@ -152,50 +150,10 @@ public class TotalScoreRating {
 		
 		tsr += skills;
 		
-		// factor in age
-		tsr -= draftClass.getAge(name) * 50;
-			
 		return tsr;
 	}
 	
-	public int calculateTSI(String name, int[] interview)
-	{
-		
-		int tsi = 0; 
-
-		// IQ
-		tsi += interview[0];
-		
-		// CON
-		tsi += interview[1];
-		
-		// GRE
-		tsi += interview[2];
-		
-		// LOY
-		tsi += interview[3];
-		
-		// PFW
-		tsi += interview[4];
-		
-		// PER
-		tsi += interview[6];
-		
-		// DUR
-		tsi += interview[7];
-		
-		// WE
-		tsi += interview[8];
-		
-		// POP
-		tsi += interview[9];
-		
-		return tsi;
-	
-	}
-	
-	public void updateTSR(String playerName, int score) 
-	{
+	public void updateTSR(String playerName, int score) {
 		// check if player has been scouted before
 		if(scoreRatings.get(playerName) == 0) // not scouted yet.
 		{
@@ -205,23 +163,9 @@ public class TotalScoreRating {
 		{
 			// Old score has 80% weight while new score has 20% weight
 			int newScore = (int) ((scoreRatings.get(playerName) * 0.8) + (score * 0.2));
-			// int newScore = (scoreRatings.get(playerName) + score) / 2;
+//			int newScore = (scoreRatings.get(playerName) + score) / 2;
 			scoreRatings.put(playerName, newScore);
 		}  
-	}
-	
-	public void addTSI(String playerName, int score)
-	{
-		// check if player has been scouted before
-		if(scoreRatings.get(playerName) == 0) // not scouted yet.
-		{
-			scoreRatings.put(playerName,score);
-		}
-		else 
-		{
-			int newScore = (int) (scoreRatings.get(playerName) + (score * 0.2));
-			updateTSR(playerName, newScore);
-		} 
 	}
 	
 	public void saveRatings() throws IOException
